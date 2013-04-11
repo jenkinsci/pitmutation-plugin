@@ -66,7 +66,7 @@ public class MutationReport {
     Collection<Mutation> mutations = mutationsByClass_.get(className);
     return mutations != null ? mutations : EMPTY_SET;
   }
-//
+
   public MutationStats getMutationStats() {
     return new MutationStats() {
       public String getTitle() {

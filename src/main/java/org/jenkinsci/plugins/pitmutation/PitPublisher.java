@@ -87,10 +87,6 @@ public class PitPublisher extends Recorder {
     }
   }
 
-  void findReports(FilePath root) {
-    new FilePath(root, mutationStatsFile_);
-  }
-
   boolean mutationsReportExists(FilePath reportDir) {
     if (reportDir == null) {
       return false;
@@ -119,14 +115,24 @@ public class PitPublisher extends Recorder {
     return result;
   }
 
+
+  /**
+   * Required by plugin config
+   */
   public float getMinimumKillRatio() {
     return minimumKillRatio_;
   }
 
+  /**
+   * Required by plugin config
+   */
   public boolean getKillRatioMustImprove() {
     return killRatioMustImprove_;
   }
 
+  /**
+   * Required by plugin config
+   */
   public String getMutationStatsFile() {
     return mutationStatsFile_;
   }

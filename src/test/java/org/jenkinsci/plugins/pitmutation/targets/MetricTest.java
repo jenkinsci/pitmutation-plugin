@@ -1,4 +1,4 @@
-package org.jenkinsci.plugins.pitmutation.target;
+package org.jenkinsci.plugins.pitmutation.targets;
 
 import org.jenkinsci.plugins.pitmutation.metrics.IntPercentMetric;
 import org.jenkinsci.plugins.pitmutation.metrics.IntPercentage;
@@ -50,8 +50,8 @@ public class MetricTest {
 
   @Test
   public void mutatorMetricTest() {
-    MutatorMetric m = new MutatorMetric("NonVoidMethodCall");
-
+    MutatorMetric mutatorMetric = new MutatorMetric("NonVoidMethodCall");
+    assertThat(mutatorMetric.createMetric(10).aggregate(mutatorMetric.createMetric(5)).getValue(), is(15));
   }
 
 }

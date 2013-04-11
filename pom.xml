@@ -6,11 +6,18 @@
     <version>1.505</version><!-- which version of Jenkins is this plugin built against? -->
   </parent>
 
-  <groupId>org.jenkins-ci.plugins</groupId>
   <artifactId>pitmutation</artifactId>
   <version>1.0-5</version>
   <name>Jenkins PIT Mutation Plugin</name>
   <packaging>hpi</packaging>
+  <url>http://wiki.jenkins-ci.org/display/JENKINS/pitmutation</url>
+
+
+  <scm>
+    <connection>scm:git:ssh://github.com/jenkinsci/pitmutation-plugin.git</connection>
+    <developerConnection>scm:git:ssh://git@github.com/jenkinsci/pitmutation-plugin.git</developerConnection>
+    <url>https://github.com/jenkinsci/pitmutation-plugin</url>
+  </scm>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -24,20 +31,19 @@
     </developer>
   </developers>
 
-  <!-- get every artifact through repo.jenkins-ci.org, which proxies all the artifacts that we need -->
-  <repositories>
-    <repository>
-      <id>repo.jenkins-ci.org</id>
-      <url>http://repo.jenkins-ci.org/public/</url>
-    </repository>
-  </repositories>
+    <repositories>
+        <repository>
+            <id>repo.jenkins-ci.org</id>
+            <url>http://repo.jenkins-ci.org/public/</url>
+        </repository>
+    </repositories>
 
-  <pluginRepositories>
-    <pluginRepository>
-      <id>repo.jenkins-ci.org</id>
-      <url>http://repo.jenkins-ci.org/public/</url>
-    </pluginRepository>
-  </pluginRepositories>
+    <pluginRepositories>
+        <pluginRepository>
+            <id>repo.jenkins-ci.org</id>
+            <url>http://repo.jenkins-ci.org/public/</url>
+        </pluginRepository>
+    </pluginRepositories>
 
   <dependencies>
     <dependency>

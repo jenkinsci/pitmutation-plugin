@@ -1,8 +1,6 @@
-package org.jenkinsci.plugins.pitmutation.target;
+package org.jenkinsci.plugins.pitmutation.targets;
 
 import org.jenkinsci.plugins.pitmutation.Mutation;
-import org.jenkinsci.plugins.pitmutation.targets.MutationStats;
-import org.jenkinsci.plugins.pitmutation.targets.MutationStatsImpl;
 import org.junit.Test;
 
 import java.util.Arrays;

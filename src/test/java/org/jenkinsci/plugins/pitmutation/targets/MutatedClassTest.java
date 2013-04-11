@@ -1,7 +1,6 @@
-package org.jenkinsci.plugins.pitmutation.target;
+package org.jenkinsci.plugins.pitmutation.targets;
 
 import org.jenkinsci.plugins.pitmutation.Mutation;
-import org.jenkinsci.plugins.pitmutation.targets.MutatedClass;
 import org.junit.Before;
 import org.junit.Test;
 
