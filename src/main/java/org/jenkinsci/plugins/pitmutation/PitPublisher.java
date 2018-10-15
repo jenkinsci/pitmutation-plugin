@@ -254,15 +254,6 @@ public class PitPublisher extends Recorder implements SimpleBuildStep {
     return BuildStepMonitor.BUILD;
   }
 
-  private FilePath getReportDir(FilePath root) throws IOException, InterruptedException {
-    FilePath reportsDir = new FilePath(root, mutationStatsFile_);
-    if (reportsDir.isDirectory()) {
-      return reportsDir;
-    } else {
-      return reportsDir.getParent();
-    }
-  }
-
   private List<Condition> buildConditions_;
   private String mutationStatsFile_;
   private boolean killRatioMustImprove_;
