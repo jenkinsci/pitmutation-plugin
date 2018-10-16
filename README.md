@@ -22,3 +22,6 @@ happened on each line.
 
 ## Releasing
 Run `mvn release:prepare release:perform` but ensure that your Maven `settings.xml` has been [set up with your jenkins-ci.org credentials](https://wiki.jenkins.io/display/JENKINS/Hosting+Plugins#HostingPlugins-Releasingtojenkins-ci.org)
+
+## Issues
+[Jenkins:pitmutation-plugin](https://issues.jenkins-ci.org/issues/?jql=project+%3D+JENKINS+AND+component+%3D+pitmutation-plugin)
