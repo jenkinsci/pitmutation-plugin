@@ -1,11 +1,10 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.jenkins-ci.plugins</groupId>
         <artifactId>plugin</artifactId>
-        <version>4.31</version>
-        <relativePath/>
+        <version>4.32</version>
+        <relativePath />
     </parent>
 
     <artifactId>pitmutation</artifactId>
@@ -24,8 +23,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.level>8</java.level>
-        <jenkins.version>2.199</jenkins.version>
-        <slf4jVersion>1.7.30</slf4jVersion> <!-- Required as require upper bound fails due to jenkins 2.199 -->
+        <jenkins.version>2.326</jenkins.version>
     </properties>
 
     <developers>
@@ -156,7 +154,7 @@
                             <exclude>org.jenkinsci.plugins.pitmutation.Messages</exclude>
                         </excludes>
                     </instrumentation>
-                    <check/>
+                    <check />
                 </configuration>
             </plugin>
             <plugin>
