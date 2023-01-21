@@ -69,14 +69,7 @@
         <dependency>
             <groupId>org.jenkins-ci</groupId>
             <artifactId>symbol-annotation</artifactId>
-            <version>1.23</version>
-        </dependency>
-
-        <!-- Required to pass RequireUpperBoundDeps error on compile -->
-        <dependency>
-            <groupId>commons-beanutils</groupId>
-            <artifactId>commons-beanutils</artifactId>
-            <version>1.9.4</version>
+            <version>1.24</version>
         </dependency>
 
         <dependency>
@@ -105,6 +98,16 @@
         </dependency>
     </dependencies>
 
+    <dependencyManagement>
+        <dependencies>
+            <!-- Required to pass RequireUpperBoundDeps error on compile -->
+            <dependency>
+                <groupId>org.jenkins-ci</groupId>
+                <artifactId>annotation-indexer</artifactId>
+                <version>1.17</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <build>
         <plugins>
@@ -182,5 +185,4 @@
             </plugin>
         </plugins>
     </build>
-
 </project>
