@@ -125,3 +125,5 @@ hs_err_pid*
 work
 
 .vscode/
+
+.DS_Store
