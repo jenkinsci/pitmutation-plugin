@@ -34,8 +34,8 @@ public class PitPublisherTest {
         boolean infoImproveLogged = false;
         boolean infoPercentLogged = false;
 
-        public PitPublisherTSS(String mutationStatsFile, float minimumKillRatio, boolean killRatioMustImprove) {
-            super(mutationStatsFile, minimumKillRatio, killRatioMustImprove);
+        public PitPublisherTSS(String mutationStatsFile, float minimumKillRatio, boolean killRatioMustImprove, boolean ignoreMissingReports) {
+            super(mutationStatsFile, minimumKillRatio, killRatioMustImprove, ignoreMissingReports);
         }
 
         class MustImproveConditionTSS extends MustImproveCondition {
@@ -126,7 +126,7 @@ public class PitPublisherTest {
     }
 
     private PitPublisherTSS createPitPublisher(boolean mustImprove) {
-        return new PitPublisherTSS("**/mutations.xml", MINIMUM_KILL_RATIO, mustImprove);
+        return new PitPublisherTSS("**/mutations.xml", MINIMUM_KILL_RATIO, mustImprove, false);
     }
 
     private void setupBoilderPlateMocks() {
