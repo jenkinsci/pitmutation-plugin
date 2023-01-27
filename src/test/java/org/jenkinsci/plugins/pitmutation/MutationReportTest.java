@@ -27,7 +27,7 @@ public class MutationReportTest {
             + "<mutatedMethod>getSize</mutatedMethod>\n"
             + "<lineNumber>54</lineNumber>\n"
             + "<mutator>org.pitest.mutationtest.engine.gregor.mutators.ReturnValsMutator</mutator>\n"
-            + "<index>5</index>\n"
+            + "<indexes><index>5</index></indexes>\n"
             + "<killingTest/>\n"
             + "</mutation>"
             + "<mutation detected='false' status='KILLED'>"
@@ -36,8 +36,8 @@ public class MutationReportTest {
             + "<mutatedMethod>getSize</mutatedMethod>"
             + "<lineNumber>57</lineNumber>"
             + "<mutator>org.pitest.mutationtest.engine.gregor.mutators.ReturnValsMutator</mutator>"
-            + "<index>6</index>"
-            + "<block>3</block>"
+            + "<indexes><index>6</index></indexes>"
+            + "<blocks><block>3</block></blocks>"
             + "<killingTest/>"
             + "</mutation>"
             + "</mutations>";
@@ -57,28 +57,28 @@ public class MutationReportTest {
 
     @Test
     public void countsKills() throws IOException, SAXException {
-        MutationReport report = MutationReport.create(mutationsXml);
+        MutationReport report = new MutationReport(mutationsXml);
         assertThat(report.getMutationStats().getKillCount(), is(5));
         assertThat(report.getMutationStats().getTotalMutations(), is(16));
     }
 
     @Test
     public void sortsMutationsByClassName() throws IOException, SAXException {
-        MutationReport report = MutationReport.create(mutationsXml);
+        MutationReport report = new MutationReport(mutationsXml);
         Collection<Mutation> mutations = report.getMutationsForClassName("org.jenkinsci.plugins.pitmutation.MutationReport");
         assertThat(mutations.size(), is(5));
     }
 
     @Test
     public void indexesMutationsByPackage() throws IOException, SAXException {
-        MutationReport report = MutationReport.create(mutationsXml);
+        MutationReport report = new MutationReport(mutationsXml);
         assertThat(report.getMutationsForPackage("org.jenkinsci.plugins.pitmutation"), hasSize(16));
         assertThat(report.getMutationsForPackage(""), hasSize(0));
     }
 
     @Test
     public void canDigestAMutation() throws IOException, SAXException {
-        MutationReport report = MutationReport.create(new ByteArrayInputStream(MUTATIONS.getBytes("UTF-8")));
+        MutationReport report = new MutationReport(new ByteArrayInputStream(MUTATIONS.getBytes("UTF-8")));
 
         assertThat(report.getMutationStats().getTotalMutations(), is(2));
 

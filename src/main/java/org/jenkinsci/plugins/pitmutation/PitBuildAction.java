@@ -94,7 +94,7 @@ public class PitBuildAction implements HealthReportingAction, StaplerProxy {
                 } else {
                     name = String.valueOf(i);
                 }
-                reports.put(name, MutationReport.create(files[i].read()));
+                reports.put(name, new MutationReport(files[i].read()));
             }
         } catch (IOException | InterruptedException | SAXException e) {
             e.printStackTrace();

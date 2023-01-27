@@ -6,7 +6,9 @@
         <mutatedMethod>&#60;init&#62;</mutatedMethod>
         <lineNumber>28</lineNumber>
         <mutator>org.pitest.mutationtest.engine.gregor.mutators.NonVoidMethodCallMutator</mutator>
-        <index>10</index>
+        <indexes>
+            <index>10</index>
+        </indexes>
         <killingTest/>
     </mutation>
     <mutation detected='false' status='NO_COVERAGE'>
@@ -15,7 +17,9 @@
         <mutatedMethod>&#60;init&#62;</mutatedMethod>
         <lineNumber>23</lineNumber>
         <mutator>org.pitest.mutationtest.engine.gregor.mutators.NonVoidMethodCallMutator</mutator>
-        <index>2</index>
+        <indexes>
+            <index>2</index>
+        </indexes>
         <killingTest/>
     </mutation>
     <mutation detected='false' status='NO_COVERAGE'>
@@ -24,7 +28,9 @@
         <mutatedMethod>&#60;init&#62;</mutatedMethod>
         <lineNumber>26</lineNumber>
         <mutator>org.pitest.mutationtest.engine.gregor.mutators.NonVoidMethodCallMutator</mutator>
-        <index>7</index>
+        <indexes>
+            <index>7</index>
+        </indexes>
         <killingTest/>
     </mutation>
 
@@ -34,7 +40,9 @@
         <mutatedMethod>equals</mutatedMethod>
         <lineNumber>15</lineNumber>
         <mutator>org.pitest.mutationtest.engine.gregor.mutators.NegateConditionalsMutator</mutator>
-        <index>0</index>
+        <indexes>
+            <index>0</index>
+        </indexes>
         <killingTest/>
     </mutation>
     <mutation detected='false' status='SURVIVED'>
@@ -43,7 +51,9 @@
         <mutatedMethod>setMutatedMethod</mutatedMethod>
         <lineNumber>60</lineNumber>
         <mutator>org.pitest.mutationtest.engine.gregor.mutators.experimental.MemberVariableMutator</mutator>
-        <index>4</index>
+        <indexes>
+            <index>4</index>
+        </indexes>
         <killingTest/>
     </mutation>
     <mutation detected='true' status='KILLED'>
@@ -52,7 +62,9 @@
         <mutatedMethod>setStatus</mutatedMethod>
         <lineNumber>36</lineNumber>
         <mutator>org.pitest.mutationtest.engine.gregor.mutators.experimental.MemberVariableMutator</mutator>
-        <index>1</index>
+        <indexes>
+            <index>1</index>
+        </indexes>
         <killingTest>
             org.jenkinsci.plugins.pitmutation.MutationReportTest.canDigestAMutation(org.jenkinsci.plugins.pitmutation.MutationReportTest)
         </killingTest>
@@ -64,7 +76,9 @@
         <mutatedMethod>&#60;init&#62;</mutatedMethod>
         <lineNumber>18</lineNumber>
         <mutator>org.pitest.mutationtest.engine.gregor.mutators.NonVoidMethodCallMutator</mutator>
-        <index>0</index>
+        <indexes>
+            <index>0</index>
+        </indexes>
         <killingTest/>
     </mutation>
     <mutation detected='true' status='KILLED'>
@@ -73,7 +87,9 @@
         <mutatedMethod>&#60;init&#62;</mutatedMethod>
         <lineNumber>16</lineNumber>
         <mutator>org.pitest.mutationtest.engine.gregor.mutators.experimental.MemberVariableMutator</mutator>
-        <index>0</index>
+        <indexes>
+            <index>0</index>
+        </indexes>
         <killingTest>
             org.jenkinsci.plugins.pitmutation.PitBuildActionTest.previousReturnsNullIfNoPreviousBuilds(org.jenkinsci.plugins.pitmutation.PitBuildActionTest)
         </killingTest>
@@ -84,7 +100,9 @@
         <mutatedMethod>&#60;init&#62;</mutatedMethod>
         <lineNumber>18</lineNumber>
         <mutator>org.pitest.mutationtest.engine.gregor.mutators.experimental.MemberVariableMutator</mutator>
-        <index>2</index>
+        <indexes>
+            <index>2</index>
+        </indexes>
         <killingTest/>
     </mutation>
     <mutation detected='false' status='SURVIVED'>
@@ -93,7 +111,9 @@
         <mutatedMethod>&#60;init&#62;</mutatedMethod>
         <lineNumber>17</lineNumber>
         <mutator>org.pitest.mutationtest.engine.gregor.mutators.experimental.MemberVariableMutator</mutator>
-        <index>1</index>
+        <indexes>
+            <index>1</index>
+        </indexes>
         <killingTest/>
     </mutation>
     <mutation detected='true' status='KILLED'>
@@ -102,7 +122,9 @@
         <mutatedMethod>getPreviousAction</mutatedMethod>
         <lineNumber>29</lineNumber>
         <mutator>org.pitest.mutationtest.engine.gregor.mutators.NonVoidMethodCallMutator</mutator>
-        <index>3</index>
+        <indexes>
+            <index>3</index>
+        </indexes>
         <killingTest>
             org.jenkinsci.plugins.pitmutation.PitBuildActionTest.previousReturnsLastSuccessfulBuild(org.jenkinsci.plugins.pitmutation.PitBuildActionTest)
         </killingTest>
@@ -113,7 +135,9 @@
         <mutatedMethod>getBuildHealth</mutatedMethod>
         <lineNumber>40</lineNumber>
         <mutator>org.pitest.mutationtest.engine.gregor.mutators.ConstructorCallMutator</mutator>
-        <index>0</index>
+        <indexes>
+            <index>0</index>
+        </indexes>
         <killingTest/>
     </mutation>
     <mutation detected='false' status='SURVIVED'>
@@ -122,7 +146,9 @@
         <mutatedMethod>getPreviousAction</mutatedMethod>
         <lineNumber>27</lineNumber>
         <mutator>org.pitest.mutationtest.engine.gregor.mutators.NonVoidMethodCallMutator</mutator>
-        <index>2</index>
+        <indexes>
+            <index>2</index>
+        </indexes>
         <killingTest/>
     </mutation>
 
@@ -132,7 +158,9 @@
         <mutatedMethod>digestMutations</mutatedMethod>
         <lineNumber>42</lineNumber>
         <mutator>org.pitest.mutationtest.engine.gregor.mutators.experimental.InlineConstantMutator</mutator>
-        <index>2</index>
+        <indexes>
+            <index>2</index>
+        </indexes>
         <killingTest/>
     </mutation>
     <mutation detected='false' status='SURVIVED'>
@@ -141,7 +169,9 @@
         <mutatedMethod>digestMutations</mutatedMethod>
         <lineNumber>39</lineNumber>
         <mutator>org.pitest.mutationtest.engine.gregor.mutators.InlineConstantMutator</mutator>
-        <index>1</index>
+        <indexes>
+            <index>1</index>
+        </indexes>
         <killingTest/>
     </mutation>
     <mutation detected='false' status='SURVIVED'>
@@ -150,7 +180,9 @@
         <mutatedMethod>digestMutations</mutatedMethod>
         <lineNumber>38</lineNumber>
         <mutator>org.pitest.mutationtest.engine.gregor.mutators.experimental.InlineConstantMutator</mutator>
-        <index>0</index>
+        <indexes>
+            <index>0</index>
+        </indexes>
         <killingTest/>
     </mutation>
     <mutation detected='true' status='KILLED'>
@@ -159,7 +191,9 @@
         <mutatedMethod>digestMutations</mutatedMethod>
         <lineNumber>29</lineNumber>
         <mutator>org.pitest.mutationtest.engine.gregor.mutators.ConstructorCallMutator</mutator>
-        <index>1</index>
+        <indexes>
+            <index>1</index>
+        </indexes>
         <killingTest>
             org.jenkinsci.plugins.pitmutation.MutationReportTest.canDigestAMutation(org.jenkinsci.plugins.pitmutation.MutationReportTest)
         </killingTest>
@@ -170,7 +204,9 @@
         <mutatedMethod>digestMutations</mutatedMethod>
         <lineNumber>39</lineNumber>
         <mutator>org.pitest.mutationtest.engine.gregor.mutators.experimental.InlineConstantMutator</mutator>
-        <index>1</index>
+        <indexes>
+            <index>1</index>
+        </indexes>
         <killingTest/>
     </mutation>
 
@@ -180,7 +216,9 @@
         <mutatedMethod>digestMutations</mutatedMethod>
         <lineNumber>45</lineNumber>
         <mutator>org.pitest.mutationtest.engine.gregor.mutators.ConstructorCallMutator</mutator>
-        <index>5</index>
+        <indexes>
+            <index>5</index>
+        </indexes>
         <killingTest>
             org.jenkinsci.plugins.pitmutation.MutationReportTest.countsKills(org.jenkinsci.plugins.pitmutation.MutationReportTest)
         </killingTest>
