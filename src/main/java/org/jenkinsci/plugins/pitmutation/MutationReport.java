@@ -15,6 +15,7 @@ import java.util.Map;
 
 /**
  * @author edward
+ * @author vasile.jureschi
  */
 public class MutationReport {
 
@@ -26,7 +27,6 @@ public class MutationReport {
   public MutationReport(InputStream xmlReport) throws IOException, SAXException {
     this.mutationsByClass = new HashMap<>();
     this.mutationsByPackage = new HashMap<>();
-
 
     //    https://github.com/FasterXML/jackson-dataformat-xml/issues/219
     JacksonXmlModule module = new JacksonXmlModule();
