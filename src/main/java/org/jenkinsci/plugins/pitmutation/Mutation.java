@@ -17,6 +17,7 @@ public class Mutation {
   private String sourceFile;
   private String mutatedClass;
   private String mutatedMethod;
+  private int numberOfTestsRun;
   private int lineNumber;
   private String mutator;
   /**

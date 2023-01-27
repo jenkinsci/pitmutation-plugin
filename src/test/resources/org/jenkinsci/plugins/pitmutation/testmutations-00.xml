@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <mutations>
-    <mutation detected='false' status='NO_COVERAGE'>
+    <mutation detected='false' status='NO_COVERAGE' numberOfTestsRun='0'>
         <sourceFile>PitParser.java</sourceFile>
         <mutatedClass>org.jenkinsci.plugins.pitmutation.PitParser</mutatedClass>
         <mutatedMethod>&#60;init&#62;</mutatedMethod>
@@ -11,7 +11,7 @@
         </indexes>
         <killingTest/>
     </mutation>
-    <mutation detected='false' status='NO_COVERAGE'>
+    <mutation detected='false' status='NO_COVERAGE' numberOfTestsRun='0'>
         <sourceFile>PitParser.java</sourceFile>
         <mutatedClass>org.jenkinsci.plugins.pitmutation.PitParser</mutatedClass>
         <mutatedMethod>&#60;init&#62;</mutatedMethod>
@@ -22,7 +22,7 @@
         </indexes>
         <killingTest/>
     </mutation>
-    <mutation detected='false' status='NO_COVERAGE'>
+    <mutation detected='false' status='NO_COVERAGE' numberOfTestsRun='0'>
         <sourceFile>PitParser.java</sourceFile>
         <mutatedClass>org.jenkinsci.plugins.pitmutation.PitParser</mutatedClass>
         <mutatedMethod>&#60;init&#62;</mutatedMethod>
@@ -34,7 +34,7 @@
         <killingTest/>
     </mutation>
 
-    <mutation detected='false' status='NO_COVERAGE'>
+    <mutation detected='false' status='NO_COVERAGE' numberOfTestsRun='0'>
         <sourceFile>Mutation.java</sourceFile>
         <mutatedClass>org.jenkinsci.plugins.pitmutation.Mutation</mutatedClass>
         <mutatedMethod>equals</mutatedMethod>
@@ -45,7 +45,7 @@
         </indexes>
         <killingTest/>
     </mutation>
-    <mutation detected='true' status='KILLED'>
+    <mutation detected='true' status='KILLED' numberOfTestsRun='0'>
         <sourceFile>Mutation.java</sourceFile>
         <mutatedClass>org.jenkinsci.plugins.pitmutation.Mutation</mutatedClass>
         <mutatedMethod>setStatus</mutatedMethod>
@@ -58,7 +58,7 @@
             org.jenkinsci.plugins.pitmutation.MutationReportTest.canDigestAMutation(org.jenkinsci.plugins.pitmutation.MutationReportTest)
         </killingTest>
     </mutation>
-    <mutation detected='true' status='KILLED'>
+    <mutation detected='true' status='KILLED' numberOfTestsRun='0'>
         <sourceFile>Mutation.java</sourceFile>
         <mutatedClass>org.jenkinsci.plugins.pitmutation.Mutation</mutatedClass>
         <mutatedMethod>getSourceFile</mutatedMethod>
@@ -71,7 +71,7 @@
             org.jenkinsci.plugins.pitmutation.MutationReportTest.canDigestAMutation(org.jenkinsci.plugins.pitmutation.MutationReportTest)
         </killingTest>
     </mutation>
-    <mutation detected='true' status='KILLED'>
+    <mutation detected='true' status='KILLED' numberOfTestsRun='0'>
         <sourceFile>Mutation.java</sourceFile>
         <mutatedClass>org.jenkinsci.plugins.pitmutation.Mutation</mutatedClass>
         <mutatedMethod>getMutator</mutatedMethod>
@@ -85,7 +85,7 @@
         </killingTest>
     </mutation>
 
-    <mutation detected='false' status='SURVIVED'>
+    <mutation detected='false' status='SURVIVED' numberOfTestsRun='0'>
         <sourceFile>PitBuildAction.java</sourceFile>
         <mutatedClass>org.jenkinsci.plugins.pitmutation.PitBuildAction</mutatedClass>
         <mutatedMethod>&#60;init&#62;</mutatedMethod>
@@ -96,7 +96,7 @@
         </indexes>
         <killingTest/>
     </mutation>
-    <mutation detected='true' status='KILLED'>
+    <mutation detected='true' status='KILLED' numberOfTestsRun='0'>
         <sourceFile>PitBuildAction.java</sourceFile>
         <mutatedClass>org.jenkinsci.plugins.pitmutation.PitBuildAction</mutatedClass>
         <mutatedMethod>&#60;init&#62;</mutatedMethod>
@@ -109,7 +109,7 @@
             org.jenkinsci.plugins.pitmutation.PitBuildActionTest.previousReturnsNullIfNoPreviousBuilds(org.jenkinsci.plugins.pitmutation.PitBuildActionTest)
         </killingTest>
     </mutation>
-    <mutation detected='false' status='SURVIVED'>
+    <mutation detected='false' status='SURVIVED' numberOfTestsRun='0'>
         <sourceFile>PitBuildAction.java</sourceFile>
         <mutatedClass>org.jenkinsci.plugins.pitmutation.PitBuildAction</mutatedClass>
         <mutatedMethod>&#60;init&#62;</mutatedMethod>
@@ -120,7 +120,7 @@
         </indexes>
         <killingTest/>
     </mutation>
-    <mutation detected='false' status='SURVIVED'>
+    <mutation detected='false' status='SURVIVED' numberOfTestsRun='0'>
         <sourceFile>PitBuildAction.java</sourceFile>
         <mutatedClass>org.jenkinsci.plugins.pitmutation.PitBuildAction</mutatedClass>
         <mutatedMethod>&#60;init&#62;</mutatedMethod>
@@ -132,7 +132,7 @@
         <killingTest/>
     </mutation>
 
-    <mutation detected='false' status='SURVIVED'>
+    <mutation detected='false' status='SURVIVED' numberOfTestsRun='0'>
         <sourceFile>MutationReport.java</sourceFile>
         <mutatedClass>org.jenkinsci.plugins.pitmutation.MutationReport</mutatedClass>
         <mutatedMethod>digestMutations</mutatedMethod>
@@ -143,7 +143,7 @@
         </indexes>
         <killingTest/>
     </mutation>
-    <mutation detected='false' status='SURVIVED'>
+    <mutation detected='false' status='SURVIVED' numberOfTestsRun='0'>
         <sourceFile>MutationReport.java</sourceFile>
         <mutatedClass>org.jenkinsci.plugins.pitmutation.MutationReport</mutatedClass>
         <mutatedMethod>digestMutations</mutatedMethod>
@@ -154,7 +154,7 @@
         </indexes>
         <killingTest/>
     </mutation>
-    <mutation detected='false' status='SURVIVED'>
+    <mutation detected='false' status='SURVIVED' numberOfTestsRun='0'>
         <sourceFile>MutationReport.java</sourceFile>
         <mutatedClass>org.jenkinsci.plugins.pitmutation.MutationReport</mutatedClass>
         <mutatedMethod>digestMutations</mutatedMethod>
@@ -165,7 +165,7 @@
         </indexes>
         <killingTest/>
     </mutation>
-    <mutation detected='true' status='KILLED'>
+    <mutation detected='true' status='KILLED' numberOfTestsRun='0'>
         <sourceFile>MutationReport.java</sourceFile>
         <mutatedClass>org.jenkinsci.plugins.pitmutation.MutationReport</mutatedClass>
         <mutatedMethod>digestMutations</mutatedMethod>
@@ -178,7 +178,7 @@
             org.jenkinsci.plugins.pitmutation.MutationReportTest.canDigestAMutation(org.jenkinsci.plugins.pitmutation.MutationReportTest)
         </killingTest>
     </mutation>
-    <mutation detected='false' status='SURVIVED'>
+    <mutation detected='false' status='SURVIVED' numberOfTestsRun='0'>
         <sourceFile>MutationReport.java</sourceFile>
         <mutatedClass>org.jenkinsci.plugins.pitmutation.MutationReport</mutatedClass>
         <mutatedMethod>digestMutations</mutatedMethod>
