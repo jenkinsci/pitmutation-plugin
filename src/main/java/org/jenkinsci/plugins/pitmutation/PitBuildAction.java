@@ -27,6 +27,8 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static hudson.model.Result.FAILURE;
+
 
 /**
  * @author edward
@@ -45,16 +47,16 @@ public class PitBuildAction implements HealthReportingAction, StaplerProxy {
     }
 
     public PitBuildAction getPreviousAction() {
-        Run<?, ?> b = owner;
+        Run<?, ?> build = owner;
         while (true) {
-            b = b.getPreviousBuild();
-            if (b == null)
+            build = build.getPreviousBuild();
+            if (build == null)
                 return null;
-            if (b.getResult() == Result.FAILURE)
+            if (build.getResult() == FAILURE)
                 continue;
-            PitBuildAction r = b.getAction(PitBuildAction.class);
-            if (r != null)
-                return r;
+            PitBuildAction action = build.getAction(PitBuildAction.class);
+            if (action != null)
+                return action;
         }
     }
 
@@ -121,7 +123,7 @@ public class PitBuildAction implements HealthReportingAction, StaplerProxy {
             if (b == null) {
                 return null;
             }
-            assert b.getResult() != Result.FAILURE : "We asked for the previous not failed build";
+            assert b.getResult() != FAILURE : "We asked for the previous not failed build";
             PitBuildAction r = b.getAction(PitBuildAction.class);
             if (r != null) {
                 return r;

@@ -1,137 +1,253 @@
 package org.jenkinsci.plugins.pitmutation;
 
-import hudson.model.Result;
+import hudson.EnvVars;
+import hudson.FilePath;
+import hudson.Launcher;
+import hudson.model.AbstractProject;
+import hudson.model.Action;
+import hudson.model.Project;
+import hudson.model.Run;
+import hudson.model.TaskListener;
 import org.jenkinsci.plugins.pitmutation.targets.MutationStats;
 import org.jenkinsci.plugins.pitmutation.targets.ProjectMutations;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.junit.Assert.*;
+import java.io.File;
+import java.io.IOException;
+import java.util.Map;
+
+import static hudson.model.Result.FAILURE;
+import static hudson.model.Result.SUCCESS;
+import static hudson.tasks.BuildStepMonitor.STEP;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+
 
 /**
  * User: Ed Kimber Date: 17/03/13 Time: 17:55
  */
-public class PitPublisherTest {
+@ExtendWith(MockitoExtension.class)
+class PitPublisherTest {
 
-    private static final float MINIMUM_KILL_RATIO = 0.25f;
+  private static final float MINIMUM_KILL_RATIO = 0.25f;
 
-    @Mock
-    private PitBuildAction action;
-    @Mock
-    private ProjectMutations report;
-    @Mock
-    private MutationStats stats;
+  @Mock
+  private PitBuildAction action;
+  @Mock
+  private ProjectMutations report;
+  @Mock
+  private MutationStats stats;
+  @Mock
+  private PitLogger pitLogger;
 
-    private PitPublisher publisher;
-    private PitPublisherTSS publisherTSS;
+  @Mock
+  private FileProcessor fileProcessor;
 
-    static class PitPublisherTSS extends PitPublisher {
-        boolean infoImproveLogged = false;
-        boolean infoPercentLogged = false;
+  @Mock
+  private ResultDecider resultDecider;
 
-        public PitPublisherTSS(String mutationStatsFile, float minimumKillRatio, boolean killRatioMustImprove, boolean ignoreMissingReports) {
-            super(mutationStatsFile, minimumKillRatio, killRatioMustImprove, ignoreMissingReports);
-        }
+  @Test
+  void ignoreMissingReports_ignore_noReports() throws Exception {
+    FileProcessor fileProcessor = mock(FileProcessor.class);
+    ResultDecider decider = mock(ResultDecider.class);
+    PitPublisher publisher =
+      new PitPublisher("**/mutations.xml", MINIMUM_KILL_RATIO, true, true, fileProcessor, decider, pitLogger);
+    TaskListener taskListener = mock(TaskListener.class);
+    Run<?, ?> build = mock(Run.class);
+    publisher.perform(build, mock(FilePath.class), mock(EnvVars.class), mock(Launcher.class), taskListener);
 
-        class MustImproveConditionTSS extends MustImproveCondition {
-            void logInfo(final PitBuildAction action, MutationStats stats) {
-                infoImproveLogged = true;
-            }
-        }
+    verify(build).setResult(SUCCESS);
+    verify(pitLogger).logMissingReportsIgnored(any());
+  }
 
-        Condition mustImprove() {
-            return new MustImproveConditionTSS();
-        }
+  @Test
+  void ignoreMissingReports_doNotIgnore_noReports() throws Exception {
+    FileProcessor fileProcessor = mock(FileProcessor.class);
+    ResultDecider decider = mock(ResultDecider.class);
+    PitPublisher publisher =
+      new PitPublisher("**/mutations.xml", MINIMUM_KILL_RATIO, true, false, fileProcessor, decider, pitLogger);
+    TaskListener taskListener = mock(TaskListener.class);
+    Run<?, ?> build = mock(Run.class);
 
-        class PercentageThresholdConditionTSS extends PercentageThresholdCondition {
-            PercentageThresholdConditionTSS(float percentage) {
-                super(percentage);
-            }
 
-            void dologging(MutationStats stats) {
-                infoPercentLogged = true;
-            }
-        }
+    publisher.perform(build, mock(FilePath.class), mock(EnvVars.class), mock(Launcher.class), taskListener);
 
-        Condition percentageThreshold(final float percentage) {
-            return new PercentageThresholdConditionTSS(percentage);
-        }
-    }
+    verify(build).setResult(FAILURE);
+    verify(pitLogger).logBuildFailedNoReports(any());
+  }
 
-    @Before
-    public void setup() {
-        MockitoAnnotations.openMocks(this);
-    }
+  @Test
+  void oneReport_ioException() throws Exception {
+    FileProcessor fileProcessor = mock(FileProcessor.class);
+    ResultDecider decider = mock(ResultDecider.class);
+    PitPublisher publisher = new PitPublisher(
+      "./src/test/resources/org/jenkinsci/plugins/pitmutation/testmutations-00.xml",
+      MINIMUM_KILL_RATIO,
+      true,
+      false,
+      fileProcessor,
+      decider,
+      pitLogger);
+    TaskListener taskListener = mock(TaskListener.class);
+    FilePath workspace = mock(FilePath.class);
+    FilePath[] reports = {mock(FilePath.class)};
+    when(workspace.act(any(ParseReportCallable.class))).thenReturn(reports);
+    doThrow(IOException.class).when(fileProcessor).copySingleModuleReport(any(), any());
+    Run<?, ?> build = mock(Run.class);
+    when(build.getRootDir()).thenReturn(new File("src/test/resources"));
+    publisher.perform(build, workspace, mock(EnvVars.class), mock(Launcher.class), taskListener);
 
-    @Test
-    public void testDecideBuildResultFailsIfKillRatioTooLow() {
-        publisherTSS = createPitPublisher(false);
-        publisher = publisherTSS;
-        final float TOO_LOW_RATIO = 0.2f;
-        setupBoilderPlateMocks();
-        Mockito.when(stats.getKillPercent()).thenReturn(TOO_LOW_RATIO);
-        assertEquals(Result.FAILURE, publisher.decideBuildResult(action));
-        assertFalse(publisherTSS.infoImproveLogged);
-        assertTrue(publisherTSS.infoPercentLogged);
-    }
+    verify(build).setResult(FAILURE);
+    verify(pitLogger, never()).logResults(any(), any());
+  }
 
-    @Test
-    public void testDecideBuildResultSuccessIfKillRatioSame() {
-        publisher = createPitPublisher(false);
-        final float BIGGER_RATIO = MINIMUM_KILL_RATIO + 0.2f;
-        setupBoilderPlateMocks();
-        Mockito.when(stats.getKillPercent()).thenReturn(MINIMUM_KILL_RATIO, BIGGER_RATIO);
-        assertEquals(Result.SUCCESS, publisher.decideBuildResult(action));
-        assertEquals(Result.SUCCESS, publisher.decideBuildResult(action));
-    }
+  @Test
+  void oneReport() throws Exception {
+    FileProcessor fileProcessor = mock(FileProcessor.class);
+    ResultDecider decider = mock(ResultDecider.class);
+    PitPublisher publisher = new PitPublisher(
+      "./src/test/resources/org/jenkinsci/plugins/pitmutation/testmutations-00.xml",
+      MINIMUM_KILL_RATIO,
+      true,
+      false,
+      fileProcessor,
+      decider,
+      pitLogger);
+    TaskListener taskListener = mock(TaskListener.class);
+    FilePath workspace = mock(FilePath.class);
+    FilePath[] reports = {mock(FilePath.class)};
+    when(workspace.act(any(ParseReportCallable.class))).thenReturn(reports);
+    doNothing().when(fileProcessor).copySingleModuleReport(any(), any());
+    Run<?, ?> build = mock(Run.class);
+    when(build.getRootDir()).thenReturn(new File("src/test/resources"));
+    when(decider.decideBuildResult(any())).thenReturn(SUCCESS);
+    publisher.perform(build, workspace, mock(EnvVars.class), mock(Launcher.class), taskListener);
 
-    @Test
-    public void testMustImproveConditionSucceedsWhenPreviousActionIsNull() {
-        publisher = createPitPublisher(true);
-        final float BIGGER_RATIO = MINIMUM_KILL_RATIO + 0.2f;
-        setupBoilderPlateMocks();
-        Mockito.when(stats.getKillPercent()).thenReturn(BIGGER_RATIO);
-        assertEquals(Result.SUCCESS, publisher.decideBuildResult(action));
-    }
+    verify(build).setResult(SUCCESS);
+    verify(pitLogger).logResults(any(), any());
+  }
 
-    @Test
-    public void testMustImproveConditionFailsWhenWhenPreviousActionKillRatioIsBetter() {
-        publisher = createPitPublisher(true);
-        setupBoilderPlateMocks();
-        setupPercentKillRatioOK();
-        PitBuildAction prevAction = mock(PitBuildAction.class);
-        ProjectMutations prevReport_ = Mockito.mock(ProjectMutations.class);
-        MutationStats prevStats_ = Mockito.mock(MutationStats.class);
-        when(action.getPreviousAction()).thenReturn(prevAction);
-        when(prevAction.getReport()).thenReturn(prevReport_);
-        when(prevReport_.getMutationStats()).thenReturn(prevStats_);
-        when(stats.getKillPercent()).thenReturn(MINIMUM_KILL_RATIO + 0.5f);
-        when(prevStats_.getKillPercent()).thenReturn(MINIMUM_KILL_RATIO + 0.6f, // previous is better
-            MINIMUM_KILL_RATIO + 0.5f, // equal
-            MINIMUM_KILL_RATIO + 0.4f); //previous is worse
 
-        assertEquals(Result.UNSTABLE, publisher.decideBuildResult(action)); //previous is better
-        assertEquals(Result.SUCCESS, publisher.decideBuildResult(action)); // previous is equal
-        assertEquals(Result.SUCCESS, publisher.decideBuildResult(action)); //previous is worse
-    }
+  @Test
+  void multiModuleReports() throws Exception {
+    FileProcessor fileProcessor = mock(FileProcessor.class);
+    ResultDecider decider = mock(ResultDecider.class);
+    PitPublisher publisher = new PitPublisher(
+      "./src/test/resources/org/jenkinsci/plugins/pitmutation/testmutations-00.xml",
+      MINIMUM_KILL_RATIO,
+      true,
+      false,
+      fileProcessor,
+      decider,
+      pitLogger);
+    TaskListener taskListener = mock(TaskListener.class);
+    FilePath workspace = mock(FilePath.class);
+    FilePath[] reports = {mock(FilePath.class), mock(FilePath.class)};
+    when(workspace.act(any(ParseReportCallable.class))).thenReturn(reports);
+    when(fileProcessor.getNames(any(), any())).thenReturn(Map.of(mock(FilePath.class),
+                                                                   "1",
+                                                                   mock(FilePath.class),
+                                                                   "2"));
+    doNothing().when(fileProcessor).copyMultiModuleReport(any(), any(), any());
+    Run<?, ?> build = mock(Run.class);
+    when(build.getRootDir()).thenReturn(new File("src/test/resources"));
+    when(decider.decideBuildResult(any())).thenReturn(SUCCESS);
+    publisher.perform(build, workspace, mock(EnvVars.class), mock(Launcher.class), taskListener);
 
-    private void setupPercentKillRatioOK() {
-        final float BIGGER_RATIO = MINIMUM_KILL_RATIO + 0.2f;
-        when(stats.getKillPercent()).thenReturn(BIGGER_RATIO);
-    }
+    verify(build).setResult(SUCCESS);
+    verify(pitLogger).logResults(any(), any());
+  }
 
-    private PitPublisherTSS createPitPublisher(boolean mustImprove) {
-        return new PitPublisherTSS("**/mutations.xml", MINIMUM_KILL_RATIO, mustImprove, false);
-    }
 
-    private void setupBoilderPlateMocks() {
-        Mockito.when(action.getReport()).thenReturn(report);
-        Mockito.when(report.getMutationStats()).thenReturn(stats);
-    }
+  @Test
+  void multiModuleReports_ioException() throws Exception {
+    FileProcessor fileProcessor = mock(FileProcessor.class);
+    ResultDecider decider = mock(ResultDecider.class);
+    PitPublisher publisher = new PitPublisher(
+      "./src/test/resources/org/jenkinsci/plugins/pitmutation/testmutations-00.xml",
+      MINIMUM_KILL_RATIO,
+      true,
+      false,
+      fileProcessor,
+      decider,
+      pitLogger);
+    TaskListener taskListener = mock(TaskListener.class);
+    FilePath workspace = mock(FilePath.class);
+    FilePath[] reports = {mock(FilePath.class), mock(FilePath.class)};
+    when(workspace.act(any(ParseReportCallable.class))).thenReturn(reports);
+    when(fileProcessor.getNames(any(), any())).thenReturn(Map.of(mock(FilePath.class),
+                                                                 "1",
+                                                                 mock(FilePath.class),
+                                                                 "2"));
+    doThrow(IOException.class).when(fileProcessor).copyMultiModuleReport(any(), any(), any());
+    Run<?, ?> build = mock(Run.class);
+    when(build.getRootDir()).thenReturn(new File("src/test/resources"));
+    publisher.perform(build, workspace, mock(EnvVars.class), mock(Launcher.class), taskListener);
 
+    verify(build).setResult(FAILURE);
+    verify(pitLogger, never()).logResults(any(), any());
+  }
+  @Test
+  void getMinimumKillRatio() {
+    PitPublisher pitPublisher = new PitPublisher("target/pit-reports/mutations.xml", 0.5f, false, false);
+    assertEquals(0.5f, pitPublisher.getMinimumKillRatio());
+  }
+
+  @Test
+  void getKillRatioMustImprove() {
+    PitPublisher pitPublisher = new PitPublisher("target/pit-reports/mutations.xml", 0.5f, true, false);
+    assertTrue(pitPublisher.getKillRatioMustImprove());
+  }
+
+  @Test
+  void getIgnoreMissingReports() {
+    PitPublisher pitPublisher = new PitPublisher("target/pit-reports/mutations.xml", 0.5f, false, true);
+    assertTrue(pitPublisher.getIgnoreMissingReports());
+  }
+
+  @Test
+  void setIgnoreMissingReports_true() {
+    PitPublisher pitPublisher = new PitPublisher("target/pit-reports/mutations.xml", 0.5f, false, false);
+    pitPublisher.setIgnoreMissingReports(true);
+    assertTrue(pitPublisher.getIgnoreMissingReports());
+  }
+
+  @Test
+  void setIgnoreMissingReports_false() {
+    PitPublisher pitPublisher = new PitPublisher("target/pit-reports/mutations.xml", 0.5f, false, true);
+    pitPublisher.setIgnoreMissingReports(false);
+    assertFalse(pitPublisher.getIgnoreMissingReports());
+  }
+
+  @Test
+  void getProjectAction() {
+    PitPublisher pitPublisher = new PitPublisher("target/pit-reports/mutations.xml", 0.5f, false, true);
+    Action projectAction = pitPublisher.getProjectAction((AbstractProject<?, ?>) mock(Project.class));
+    assertNotNull(projectAction);
+  }
+
+  @Test
+  void getMutationStatsFile() {
+    PitPublisher pitPublisher = new PitPublisher("target/pit-reports/mutations.xml", 0.5f, false, true);
+    assertEquals("target/pit-reports/mutations.xml", pitPublisher.getMutationStatsFile());
+  }
+
+  @Test
+  void getRequiredMonitorService() {
+    PitPublisher pitPublisher = new PitPublisher("target/pit-reports/mutations.xml", 0.5f, false, true);
+    assertEquals(STEP, pitPublisher.getRequiredMonitorService());
+  }
 }
