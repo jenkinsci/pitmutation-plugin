@@ -18,6 +18,7 @@ import org.kohsuke.stapler.DataBoundSetter;
 import javax.annotation.Nonnull;
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Map;
 
 import static hudson.model.Result.FAILURE;
@@ -116,23 +117,23 @@ public class PitPublisher extends Recorder implements SimpleBuildStep {
   }
 
   private void process(@Nonnull Run<?, ?> build,
-                      @Nonnull FilePath workspace,
-                      @NonNull EnvVars env,
-                      @Nonnull Launcher launcher,
-                      @Nonnull TaskListener listener) throws InterruptedException, IOException {
-    File statsFile = new File(mutationStatsFile);
-    if (noReportsAndMissingReportsIgnored(statsFile)) {
+                       @Nonnull FilePath workspace,
+                       @NonNull EnvVars env,
+                       @Nonnull Launcher launcher,
+                       @Nonnull TaskListener listener) throws InterruptedException, IOException {
+    FilePath[] reports = workspace.act(new ParseReportCallable(mutationStatsFile));
+
+    if (noReportsAndMissingReportsIgnored(reports)) {
       pitLogger.logMissingReportsIgnored(listener);
       build.setResult(SUCCESS);
       return;
-    } else if (noReportsAndMissingReportsNotIgnored(statsFile)) {
+    } else if (noReportsAndMissingReportsNotIgnored(reports)) {
       pitLogger.logBuildFailedNoReports(listener);
       build.setResult(FAILURE);
       return;
     }
 
     pitLogger.logLookingForReports(listener, workspace);
-    FilePath[] reports = workspace.act(new ParseReportCallable(mutationStatsFile));
     FilePath buildTarget = new FilePath(build.getRootDir());
     if (reports.length == 1) {
       fileProcessor.copySingleModuleReport(reports[0], buildTarget);
@@ -153,12 +154,36 @@ public class PitPublisher extends Recorder implements SimpleBuildStep {
     pitLogger.logResults(listener, action);
   }
 
-  private boolean noReportsAndMissingReportsIgnored(File f) {
-    return (!f.exists() || f.isDirectory()) && ignoreMissingReports;
+  private boolean noReportsAndMissingReportsIgnored(FilePath[] reports) {
+    if (reports == null && ignoreMissingReports) {
+      return true;
+    } else if (reports == null ) {
+      return false;
+    }
+    return Arrays.stream(reports).anyMatch(report -> {
+      try {
+        return (!report.exists() || report.isDirectory()) && ignoreMissingReports;
+      } catch (IOException | InterruptedException e) {
+        e.printStackTrace();
+        return false;
+      }
+    });
   }
 
-  private boolean noReportsAndMissingReportsNotIgnored(File f) {
-    return (!f.exists() || f.isDirectory()) && !ignoreMissingReports;
+  private boolean noReportsAndMissingReportsNotIgnored(FilePath[] reports) {
+    if (reports == null && !ignoreMissingReports) {
+      return false;
+    } else if (reports == null) {
+      return true;
+    }
+    return Arrays.stream(reports).anyMatch(report -> {
+      try {
+        return (!report.exists() || report.isDirectory()) && !ignoreMissingReports;
+      } catch (IOException | InterruptedException e) {
+        e.printStackTrace();
+        return false;
+      }
+    });
   }
 
   /**

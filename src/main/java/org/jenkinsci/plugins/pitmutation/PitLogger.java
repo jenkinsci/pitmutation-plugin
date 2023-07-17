@@ -15,21 +15,28 @@ public class PitLogger {
   PitLogger() {
   }
 
-  public void logResults(TaskListener listener, PitBuildAction action ) {
+  public void logResults(TaskListener listener, PitBuildAction action) {
     MutationStats mutationStats = action.getReport().getMutationStats();
-    float previousKillPercent = action.getPreviousAction().getReport().getMutationStats().getKillPercent();
+    PitBuildAction previousAction = action.getPreviousAction();
+    if (previousAction != null) {
+      float previousKillPercent = previousAction.getReport().getMutationStats().getKillPercent();
+      logPrevious(mutationStats.getKillPercent(), previousKillPercent, listener);
+    }
     logCurrent(mutationStats, listener);
-    logPrevious(mutationStats.getKillPercent(),previousKillPercent, listener);
   }
 
   public void logMissingReportsIgnored(TaskListener listener) {
-    listener.getLogger().println("Build successful as no reports generated and build set to ignore missing reports. "
-                                 + "If the reports should be present set 'ignoreMissingReports' to false and run the build again to fail the build.");
+    listener
+      .getLogger()
+      .println("Build successful as no reports generated and build set to ignore missing reports. "
+               + "If the reports should be present set 'ignoreMissingReports' to false and run the build again to fail the build.");
   }
 
   public void logBuildFailedNoReports(TaskListener listener) {
-    listener.getLogger().println("Build failed as no reports generated and build set to not ignore missing reports. "
-                                 + "If no reports should be generated set 'ignoreMissingReports' to true and run the build again to pass the build.");
+    listener
+      .getLogger()
+      .println("Build failed as no reports generated and build set to not ignore missing reports. "
+               + "If no reports should be generated set 'ignoreMissingReports' to true and run the build again to pass the build.");
   }
 
   private void logCurrent(MutationStats currentStats, TaskListener listener) {
@@ -53,5 +60,9 @@ public class PitLogger {
 
   public void logPublishReport(TaskListener listener, FilePath workspace) {
     listener.getLogger().println("Publishing mutation report: " + workspace.getRemote());
+  }
+
+  public void log(TaskListener listener, String message) {
+    listener.getLogger().println(message);
   }
 }

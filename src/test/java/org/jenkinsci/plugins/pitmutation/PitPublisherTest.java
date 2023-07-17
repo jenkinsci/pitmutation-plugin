@@ -80,9 +80,10 @@ class PitPublisherTest {
       new PitPublisher("**/mutations.xml", MINIMUM_KILL_RATIO, true, false, fileProcessor, decider, pitLogger);
     TaskListener taskListener = mock(TaskListener.class);
     Run<?, ?> build = mock(Run.class);
+    FilePath workspace = mock(FilePath.class);
+    when(workspace.act(any(FilePath.FileCallable.class))).thenReturn(new FilePath[]{mock(FilePath.class), mock(FilePath.class)});
 
-
-    publisher.perform(build, mock(FilePath.class), mock(EnvVars.class), mock(Launcher.class), taskListener);
+    publisher.perform(build, workspace, mock(EnvVars.class), mock(Launcher.class), taskListener);
 
     verify(build).setResult(FAILURE);
     verify(pitLogger).logBuildFailedNoReports(any());
@@ -102,7 +103,10 @@ class PitPublisherTest {
       pitLogger);
     TaskListener taskListener = mock(TaskListener.class);
     FilePath workspace = mock(FilePath.class);
-    FilePath[] reports = {mock(FilePath.class)};
+    FilePath report = mock(FilePath.class);
+    when(report.exists()).thenReturn(true);
+    when(report.isDirectory()).thenReturn(false);
+    FilePath[] reports = {report};
     when(workspace.act(any(ParseReportCallable.class))).thenReturn(reports);
     doThrow(IOException.class).when(fileProcessor).copySingleModuleReport(any(), any());
     Run<?, ?> build = mock(Run.class);
@@ -127,7 +131,10 @@ class PitPublisherTest {
       pitLogger);
     TaskListener taskListener = mock(TaskListener.class);
     FilePath workspace = mock(FilePath.class);
-    FilePath[] reports = {mock(FilePath.class)};
+    FilePath report = mock(FilePath.class);
+    when(report.exists()).thenReturn(true);
+    when(report.isDirectory()).thenReturn(false);
+    FilePath[] reports = {report};
     when(workspace.act(any(ParseReportCallable.class))).thenReturn(reports);
     doNothing().when(fileProcessor).copySingleModuleReport(any(), any());
     Run<?, ?> build = mock(Run.class);
@@ -154,7 +161,14 @@ class PitPublisherTest {
       pitLogger);
     TaskListener taskListener = mock(TaskListener.class);
     FilePath workspace = mock(FilePath.class);
-    FilePath[] reports = {mock(FilePath.class), mock(FilePath.class)};
+    FilePath report1 = mock(FilePath.class);
+    when(report1.exists()).thenReturn(true);
+    when(report1.isDirectory()).thenReturn(false);
+    FilePath report2 = mock(FilePath.class);
+    when(report2.exists()).thenReturn(true);
+    when(report2.isDirectory()).thenReturn(false);
+
+    FilePath[] reports = {report1, report2};
     when(workspace.act(any(ParseReportCallable.class))).thenReturn(reports);
     when(fileProcessor.getNames(any(), any())).thenReturn(Map.of(mock(FilePath.class),
                                                                    "1",
@@ -185,7 +199,15 @@ class PitPublisherTest {
       pitLogger);
     TaskListener taskListener = mock(TaskListener.class);
     FilePath workspace = mock(FilePath.class);
-    FilePath[] reports = {mock(FilePath.class), mock(FilePath.class)};
+    FilePath report1 = mock(FilePath.class);
+    when(report1.exists()).thenReturn(true);
+    when(report1.isDirectory()).thenReturn(false);
+
+    FilePath report2 = mock(FilePath.class);
+    when(report2.exists()).thenReturn(true);
+    when(report2.isDirectory()).thenReturn(false);
+
+    FilePath[] reports = {report1, report2};
     when(workspace.act(any(ParseReportCallable.class))).thenReturn(reports);
     when(fileProcessor.getNames(any(), any())).thenReturn(Map.of(mock(FilePath.class),
                                                                  "1",
