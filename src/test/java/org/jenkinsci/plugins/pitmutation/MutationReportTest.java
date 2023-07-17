@@ -1,7 +1,7 @@
 package org.jenkinsci.plugins.pitmutation;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.xml.sax.SAXException;
 
 import java.io.ByteArrayInputStream;
@@ -17,7 +17,7 @@ import static org.hamcrest.core.Is.is;
 /**
  * @author edward
  */
-public class MutationReportTest {
+class MutationReportTest {
 
   private static final String MUTATIONS_OLD = "<mutations>"
                                               + "<mutation detected='true' status='NO_COVERAGE'>\n"
@@ -65,26 +65,26 @@ public class MutationReportTest {
 
   private InputStream mutationsXml;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     mutationsXml = getClass().getResourceAsStream("testmutations-00.xml");
   }
 
   @Test
-  public void packageNameFinder() {
+  void packageNameFinder() {
     assertThat(MutationReport.packageNameFromClass("xxx.yyy.zzz.Foo"), is("xxx.yyy.zzz"));
     assertThat(MutationReport.packageNameFromClass("Foo"), is(""));
   }
 
   @Test
-  public void countsKills() throws IOException, SAXException {
+  void countsKills() throws IOException, SAXException {
     MutationReport report = new MutationReport(mutationsXml);
     assertThat(report.getMutationStats().getKillCount(), is(5));
     assertThat(report.getMutationStats().getTotalMutations(), is(16));
   }
 
   @Test
-  public void sortsMutationsByClassName() throws IOException, SAXException {
+  void sortsMutationsByClassName() throws IOException, SAXException {
     MutationReport report = new MutationReport(mutationsXml);
     Collection<Mutation> mutations =
       report.getMutationsForClassName("org.jenkinsci.plugins.pitmutation.MutationReport");
@@ -92,14 +92,14 @@ public class MutationReportTest {
   }
 
   @Test
-  public void indexesMutationsByPackage() throws IOException, SAXException {
+  void indexesMutationsByPackage() throws IOException, SAXException {
     MutationReport report = new MutationReport(mutationsXml);
     assertThat(report.getMutationsForPackage("org.jenkinsci.plugins.pitmutation"), hasSize(16));
     assertThat(report.getMutationsForPackage(""), hasSize(0));
   }
 
   @Test
-  public void canDigestAMutation() throws IOException, SAXException {
+  void canDigestAMutation() throws IOException, SAXException {
     MutationReport report = new MutationReport(new ByteArrayInputStream(MUTATIONS.getBytes("UTF-8")));
 
     assertThat(report.getMutationStats().getTotalMutations(), is(2));
@@ -120,7 +120,7 @@ public class MutationReportTest {
   }
 
   @Test
-  public void canDigestAMutationOlderMutations() throws IOException, SAXException {
+  void canDigestAMutationOlderMutations() throws IOException, SAXException {
     MutationReport report = new MutationReport(new ByteArrayInputStream(MUTATIONS_OLD.getBytes("UTF-8")));
 
     assertThat(report.getMutationStats().getTotalMutations(), is(2));

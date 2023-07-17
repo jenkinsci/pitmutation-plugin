@@ -1,7 +1,7 @@
 package org.jenkinsci.plugins.pitmutation.targets;
 
 import org.jenkinsci.plugins.pitmutation.Mutation;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 
@@ -15,10 +15,10 @@ import static org.mockito.Mockito.when;
  * Date: 17/03/13
  * Time: 09:50
  */
-public class MutationStatsTest {
+class MutationStatsTest {
 
     @Test
-    public void killPercentCorrectlyCalculated() {
+    void killPercentCorrectlyCalculated() {
         MutationStats stats = new MutationStats() {
 
             @Override
@@ -41,7 +41,7 @@ public class MutationStatsTest {
     }
 
     @Test
-    public void mutationStatsImplTest() {
+    void mutationStatsImplTest() {
         MutationStats a = createMutationStatsA();
         MutationStats b = createMutationStatsB();
         assertThat(a.getTitle(), is("test"));
@@ -54,7 +54,7 @@ public class MutationStatsTest {
     }
 
     @Test
-    public void mutationStatsDelta() {
+    void mutationStatsDelta() {
         MutationStats delta = createMutationStatsA().delta(createMutationStatsB());
 
         assertThat(delta.getTotalMutations(), is(0));

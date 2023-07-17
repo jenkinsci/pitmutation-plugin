@@ -2,8 +2,8 @@ package org.jenkinsci.plugins.pitmutation.targets;
 
 import org.jenkinsci.plugins.pitmutation.MutationReport;
 import org.jenkinsci.plugins.pitmutation.PitBuildAction;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.xml.sax.SAXException;
 
 import java.io.IOException;
@@ -28,7 +28,7 @@ public abstract class MutationResultTest {
   private MutationResult<?> projectResult;
   private MutationResult<?> moduleResult;
 
-  @Before
+  @BeforeEach
   public void setUp() throws IOException, SAXException {
     MutationReport reportOld =
       new MutationReport(MutationReport.class.getResourceAsStream("testmutations-00.xml"));
@@ -55,7 +55,7 @@ public abstract class MutationResultTest {
   }
 
   @Test
-  public void mutationResultStatsDelta() {
+  void mutationResultStatsDelta() {
     MutationStats delta = projectResult.getStatsDelta();
     assertThat(delta.getTotalMutations(), is(3));
     assertThat(delta.getKillCount(), is(-1));
@@ -66,7 +66,7 @@ public abstract class MutationResultTest {
   }
 
   @Test
-  public void packageResultsStatsDelta() {
+  void packageResultsStatsDelta() {
     MutationStats delta = packageResult().getStatsDelta();
     assertThat(delta.getTotalMutations(), is(3));
     assertThat(delta.getKillCount(), is(-1));
@@ -77,35 +77,35 @@ public abstract class MutationResultTest {
   }
 
   @Test
-  public void classResultsStats() {
+  void classResultsStats() {
     MutationStats stats = classResult("org.jenkinsci.plugins.pitmutation.Mutation").getMutationStats();
     assertThat(stats.getTotalMutations(), is(3));
     assertThat(stats.getKillCount(), is(1));
   }
 
   @Test
-  public void classResultsStatsDelta() {
+  void classResultsStatsDelta() {
     MutationStats delta = classResult("org.jenkinsci.plugins.pitmutation.Mutation").getStatsDelta();
     assertThat(delta.getTotalMutations(), is(-1));
     assertThat(delta.getKillCount(), is(-2));
   }
 
   @Test
-  public void classResultsForNewClass() {
+  void classResultsForNewClass() {
     MutationStats stats = classResult("org.jenkinsci.plugins.pitmutation.NewMutatedClass").getMutationStats();
     assertThat(stats.getTotalMutations(), is(1));
     assertThat(stats.getKillCount(), is(0));
   }
 
   @Test
-  public void classResultsForNewClassDelta() {
+  void classResultsForNewClassDelta() {
     MutationStats stats = classResult("org.jenkinsci.plugins.pitmutation.NewMutatedClass").getStatsDelta();
     assertThat(stats.getTotalMutations(), is(1));
     assertThat(stats.getKillCount(), is(0));
   }
 
   @Test
-  public void classResultsOrdered() {
+  void classResultsOrdered() {
     Iterator<? extends MutationResult> classes = moduleResult.getChildren().iterator();
     int undetected = classes.next().getMutationStats().getUndetected();
 
@@ -117,13 +117,13 @@ public abstract class MutationResultTest {
   }
 
   @Test
-  public void urlTransformPackageName() {
+  void urlTransformPackageName() {
     assertThat(moduleResult.getChildMap().get("org.jenkinsci.plugins.pitmutation").getUrl(),
                is("org_jenkinsci_plugins_pitmutation"));
   }
 
   @Test
-  public void urlTransformClassName() {
+  void urlTransformClassName() {
     assertThat(moduleResult
                  .getChildMap()
                  .get("org.jenkinsci.plugins.pitmutation")
@@ -133,7 +133,7 @@ public abstract class MutationResultTest {
   }
 
   @Test
-  public void findsMutationsOnPitParserClass() {
+  void findsMutationsOnPitParserClass() {
     MutationResult<?> pitPackage = moduleResult.getChildMap().get("org.jenkinsci.plugins.pitmutation");
     assertThat(pitPackage.getChildren(), hasSize(5));
     MutationResult<?> pitParser = pitPackage.getChildMap().get("org.jenkinsci.plugins.pitmutation.PitParser");
@@ -141,14 +141,14 @@ public abstract class MutationResultTest {
   }
 
   @Test
-  public void collectsMutationStats() {
+  void collectsMutationStats() {
     MutationStats stats = projectResult.getMutationStats();
     assertThat(stats.getTotalMutations(), is(19));
     assertThat(stats.getUndetected(), is(15));
   }
 
   @Test
-  public void correctSourceLevels() {
+  void correctSourceLevels() {
     MutationResult<?> pitPackage = moduleResult.getChildMap().get("org.jenkinsci.plugins.pitmutation");
     MutationResult<?> pitParser = pitPackage.getChildMap().get("org.jenkinsci.plugins.pitmutation.PitParser");
     MutationResult<?> lineResult = pitParser.getChildMap().values().iterator().next();
@@ -161,12 +161,12 @@ public abstract class MutationResultTest {
   }
 
   @Test
-  public void testXmlTransform() {
+  void testXmlTransform() {
     assertThat(MutationResult.xmlTransform("replace&and<and>"), is("replace&amp;and&lt;and&gt;"));
   }
 
   @Test
-  public void testUrlTransform() {
+  void testUrlTransform() {
     assertThat(MutationResult.urlTransform("^*!replace::non+'alphas@}129"), is("___replace__non__alphas__129"));
   }
 }

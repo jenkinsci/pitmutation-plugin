@@ -1,7 +1,7 @@
 package org.jenkinsci.plugins.pitmutation;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.xml.sax.SAXException;
 
 import java.io.IOException;
@@ -16,37 +16,37 @@ import static org.hamcrest.core.Is.is;
 /**
  * @author edward
  */
-public class MutationReportWithDescriptionTest {
+class MutationReportWithDescriptionTest {
 
   private InputStream mutationsXml;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     mutationsXml = getClass().getResourceAsStream("testmutations-02.xml");
   }
 
   @Test
-  public void packageNameFinder() {
+  void packageNameFinder() {
     assertThat(MutationReport.packageNameFromClass("xxx.yyy.zzz.Foo"), is("xxx.yyy.zzz"));
     assertThat(MutationReport.packageNameFromClass("Foo"), is(""));
   }
 
   @Test
-  public void countsKills() throws IOException, SAXException {
+  void countsKills() throws IOException, SAXException {
     MutationReport report = new MutationReport(mutationsXml);
     assertThat(report.getMutationStats().getKillCount(), is(3));
     assertThat(report.getMutationStats().getTotalMutations(), is(4));
   }
 
   @Test
-  public void sortsMutationsByClassName() throws IOException, SAXException {
+  void sortsMutationsByClassName() throws IOException, SAXException {
     MutationReport report = new MutationReport(mutationsXml);
     Collection<Mutation> mutations = report.getMutationsForClassName("es.rodri.controllers.CompositorController");
     assertThat(mutations.size(), is(4));
   }
 
   @Test
-  public void indexesMutationsByPackage() throws IOException, SAXException {
+  void indexesMutationsByPackage() throws IOException, SAXException {
     MutationReport report = new MutationReport(mutationsXml);
     assertThat(report.getMutationsForPackage("es.rodri.controllers"), hasSize(4));
     assertThat(report.getMutationsForPackage(""), notNullValue());
