@@ -10,7 +10,7 @@ import java.io.IOException;
 
 import static org.mockito.Mockito.*;
 
-public class FileProcessorTest {
+class FileProcessorTest {
 
     @Mock
     private FilePath source;
@@ -27,13 +27,13 @@ public class FileProcessorTest {
     }
 
     @Test
-    public void testCopySingleModuleReport() throws IOException, InterruptedException {
+    void copySingleModuleReport() throws IOException, InterruptedException {
         fileProcessor.copySingleModuleReport(source, buildTarget);
         verify(source, times(1)).getParent();
     }
 
     @Test
-    public void testCopyMultiModuleReport() throws IOException, InterruptedException {
+    void copyMultiModuleReport() throws IOException, InterruptedException {
         String module = "module1";
         fileProcessor.copyMultiModuleReport(source, buildTarget, module);
         verify(source, times(1)).getParent();
