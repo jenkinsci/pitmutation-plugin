@@ -27,13 +27,13 @@ class FileProcessorTest {
     }
 
     @Test
-    void copySingleModuleReport() throws IOException, InterruptedException {
+    void copySingleModuleReport() throws Exception {
         fileProcessor.copySingleModuleReport(source, buildTarget);
         verify(source, times(1)).getParent();
     }
 
     @Test
-    void copyMultiModuleReport() throws IOException, InterruptedException {
+    void copyMultiModuleReport() throws Exception {
         String module = "module1";
         fileProcessor.copyMultiModuleReport(source, buildTarget, module);
         verify(source, times(1)).getParent();
