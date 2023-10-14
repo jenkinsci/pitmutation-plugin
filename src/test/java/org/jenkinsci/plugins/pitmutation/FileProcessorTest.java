@@ -25,7 +25,9 @@ class FileProcessorTest {
 
     @BeforeEach
     public void setUp() {
+        MockitoAnnotations.openMocks(this);
         fileProcessor = new FileProcessor();
+        when(source.getParent()).thenReturn(source);
     }
 
     @Test
