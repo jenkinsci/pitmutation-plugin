@@ -10,7 +10,7 @@ Configure report path, e.g. `target/pit-reports/**/mutations.xml` for a Maven bu
 ## Jenkins Pipeline
 You can use the following step in pipeline to use this plugin in pipeline:
 
-`pitmutation killRatioMustImprove: false, minimumKillRatio: 50.0, mutationStatsFile: '**/target/pit-reports/**/mutations.xml'`
+`pitmutation ignoreMissingReports: false, killRatioMustImprove: false, minimumKillRatio: 50.0, mutationStatsFile: '**/target/pit-reports/**/mutations.xml'`
 
 The plugin needs the XML and HTML output from PIT. Also make sure
 that a clean target is executed before building, otherwise PIT will

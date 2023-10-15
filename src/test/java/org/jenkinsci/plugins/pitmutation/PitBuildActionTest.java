@@ -11,7 +11,8 @@ import java.io.File;
 import java.io.FilenameFilter;
 
 import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import hudson.model.AbstractBuild;
 import hudson.model.Result;
@@ -19,13 +20,13 @@ import hudson.model.Result;
 /**
  * @author edward
  */
-public class PitBuildActionTest {
+class PitBuildActionTest {
     private PitBuildAction action;
     private AbstractBuild owner;
     private AbstractBuild failedBuild;
     private AbstractBuild successBuild;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         failedBuild = mock(AbstractBuild.class);
         when(failedBuild.getResult()).thenReturn(Result.FAILURE);
@@ -43,18 +44,18 @@ public class PitBuildActionTest {
     }
 
     @Test
-    public void previousReturnsNullIfNoPreviousBuilds() {
+    void previousReturnsNullIfNoPreviousBuilds() {
         assertThat(action.getPreviousAction(), nullValue());
     }
 
     @Test
-    public void previousReturnsNullIfAllPreviousBuildsFailed() {
+    void previousReturnsNullIfAllPreviousBuildsFailed() {
         when(owner.getPreviousBuild()).thenReturn(failedBuild);
         assertThat(action.getPreviousAction(), nullValue());
     }
 
     @Test
-    public void previousReturnsLastSuccessfulBuild() {
+    void previousReturnsLastSuccessfulBuild() {
         PitBuildAction previousSucccessAction = mock(PitBuildAction.class);
         when(owner.getPreviousBuild()).thenReturn(failedBuild);
         when(failedBuild.getPreviousBuild()).thenReturn(successBuild);

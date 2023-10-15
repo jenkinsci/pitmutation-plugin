@@ -1,0 +1,386 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mutations>
+    <mutation detected='true' status='KILLED' numberOfTestsRun='0'>
+        <sourceFile>RabbitMqMessageListenerServiceImpl.java</sourceFile>
+        <mutatedClass>com.stayble.badge_log.rabbitmq.impl.RabbitMqMessageListenerServiceImpl</mutatedClass>
+        <mutatedMethod>onMessage</mutatedMethod>
+        <methodDescription>(Lcom/stayble/rabbitmq/binding/messages/BadgeLogMessage;)V</methodDescription>
+        <lineNumber>30</lineNumber>
+        <mutator>org.pitest.mutationtest.engine.gregor.mutators.VoidMethodCallMutator</mutator>
+        <indexes>
+            <index>25</index>
+        </indexes>
+        <blocks>
+            <block>5</block>
+        </blocks>
+        <killingTest>
+            com.stayble.badge_log.rabbitmq.impl.RabbitMqMessageListenerServiceImplTest.[engine:junit-jupiter]/[class:com.stayble.badge_log.rabbitmq.impl.RabbitMqMessageListenerServiceImplTest]/[method:onPasswordResetRequestedMessage()]
+        </killingTest>
+        <description>removed call to com/stayble/badge_log/service/BadgeRequestLogService::logBadgeRequest</description>
+    </mutation>
+    <mutation detected='true' status='KILLED' numberOfTestsRun='0'>
+        <sourceFile>BadgeRequestLogServiceImpl.java</sourceFile>
+        <mutatedClass>com.stayble.badge_log.service.BadgeRequestLogServiceImpl</mutatedClass>
+        <mutatedMethod>getBadgeInfo</mutatedMethod>
+        <methodDescription>(Ljava/lang/String;)Lcom/stayble/badge/service/to/ProductBadgeInfo;</methodDescription>
+        <lineNumber>115</lineNumber>
+        <mutator>org.pitest.mutationtest.engine.gregor.mutators.NegateConditionalsMutator</mutator>
+        <indexes>
+            <index>5</index>
+        </indexes>
+        <blocks>
+            <block>1</block>
+        </blocks>
+        <killingTest>
+            com.stayble.badge_log.service.BadgeRequestLogServiceTest.[engine:junit-jupiter]/[class:com.stayble.badge_log.service.BadgeRequestLogServiceTest]/[method:getBadgeProductInfo_okEmptyProductId()]
+        </killingTest>
+        <description>negated conditional</description>
+    </mutation>
+    <mutation detected='true' status='KILLED' numberOfTestsRun='0'>
+        <sourceFile>BadgeRequestLogServiceImpl.java</sourceFile>
+        <mutatedClass>com.stayble.badge_log.service.BadgeRequestLogServiceImpl</mutatedClass>
+        <mutatedMethod>getBadgeInfo</mutatedMethod>
+        <methodDescription>(Ljava/lang/String;)Lcom/stayble/badge/service/to/ProductBadgeInfo;</methodDescription>
+        <lineNumber>118</lineNumber>
+        <mutator>org.pitest.mutationtest.engine.gregor.mutators.returns.NullReturnValsMutator</mutator>
+        <indexes>
+            <index>32</index>
+        </indexes>
+        <blocks>
+            <block>7</block>
+        </blocks>
+        <killingTest>
+            com.stayble.badge_log.service.BadgeRequestLogServiceTest.[engine:junit-jupiter]/[class:com.stayble.badge_log.service.BadgeRequestLogServiceTest]/[method:getBadgeProductInfo_okEmptyProductId()]
+        </killingTest>
+        <description>replaced return value with null for
+            com/stayble/badge_log/service/BadgeRequestLogServiceImpl::getBadgeInfo
+        </description>
+    </mutation>
+    <mutation detected='true' status='KILLED' numberOfTestsRun='0'>
+        <sourceFile>BadgeRequestLogServiceImpl.java</sourceFile>
+        <mutatedClass>com.stayble.badge_log.service.BadgeRequestLogServiceImpl</mutatedClass>
+        <mutatedMethod>getBadgeStatus</mutatedMethod>
+        <methodDescription>
+            (Lcom/stayble/data/entity/Product;Lcom/stayble/data/entity/Retailer;)Lcom/stayble/data/enums/BadgeStatus;
+        </methodDescription>
+        <lineNumber>86</lineNumber>
+        <mutator>org.pitest.mutationtest.engine.gregor.mutators.NegateConditionalsMutator</mutator>
+        <indexes>
+            <index>4</index>
+        </indexes>
+        <blocks>
+            <block>0</block>
+        </blocks>
+        <killingTest>
+            com.stayble.badge_log.service.BadgeRequestLogServiceTest.[engine:junit-jupiter]/[class:com.stayble.badge_log.service.BadgeRequestLogServiceTest]/[method:getBadgeStatus_okUpToDate()]
+        </killingTest>
+        <description>negated conditional</description>
+    </mutation>
+    <mutation detected='true' status='KILLED' numberOfTestsRun='0'>
+        <sourceFile>BadgeRequestLogServiceImpl.java</sourceFile>
+        <mutatedClass>com.stayble.badge_log.service.BadgeRequestLogServiceImpl</mutatedClass>
+        <mutatedMethod>getBadgeStatus</mutatedMethod>
+        <methodDescription>
+            (Lcom/stayble/data/entity/Product;Lcom/stayble/data/entity/Retailer;)Lcom/stayble/data/enums/BadgeStatus;
+        </methodDescription>
+        <lineNumber>89</lineNumber>
+        <mutator>org.pitest.mutationtest.engine.gregor.mutators.NegateConditionalsMutator</mutator>
+        <indexes>
+            <index>17</index>
+        </indexes>
+        <blocks>
+            <block>3</block>
+        </blocks>
+        <killingTest>
+            com.stayble.badge_log.service.BadgeRequestLogServiceTest.[engine:junit-jupiter]/[class:com.stayble.badge_log.service.BadgeRequestLogServiceTest]/[method:getBadgeStatus_okUpToDate()]
+        </killingTest>
+        <description>negated conditional</description>
+    </mutation>
+    <mutation detected='true' status='KILLED' numberOfTestsRun='0'>
+        <sourceFile>BadgeRequestLogServiceImpl.java</sourceFile>
+        <mutatedClass>com.stayble.badge_log.service.BadgeRequestLogServiceImpl</mutatedClass>
+        <mutatedMethod>getBadgeStatus</mutatedMethod>
+        <methodDescription>
+            (Lcom/stayble/data/entity/Product;Lcom/stayble/data/entity/Retailer;)Lcom/stayble/data/enums/BadgeStatus;
+        </methodDescription>
+        <lineNumber>92</lineNumber>
+        <mutator>org.pitest.mutationtest.engine.gregor.mutators.NegateConditionalsMutator</mutator>
+        <indexes>
+            <index>30</index>
+        </indexes>
+        <blocks>
+            <block>6</block>
+        </blocks>
+        <killingTest>
+            com.stayble.badge_log.service.BadgeRequestLogServiceTest.[engine:junit-jupiter]/[class:com.stayble.badge_log.service.BadgeRequestLogServiceTest]/[method:getBadgeStatus_okGrace()]
+        </killingTest>
+        <description>negated conditional</description>
+    </mutation>
+    <mutation detected='true' status='KILLED' numberOfTestsRun='0'>
+        <sourceFile>BadgeRequestLogServiceImpl.java</sourceFile>
+        <mutatedClass>com.stayble.badge_log.service.BadgeRequestLogServiceImpl</mutatedClass>
+        <mutatedMethod>getBadgeStatus</mutatedMethod>
+        <methodDescription>
+            (Lcom/stayble/data/entity/Product;Lcom/stayble/data/entity/Retailer;)Lcom/stayble/data/enums/BadgeStatus;
+        </methodDescription>
+        <lineNumber>90</lineNumber>
+        <mutator>org.pitest.mutationtest.engine.gregor.mutators.returns.NullReturnValsMutator</mutator>
+        <indexes>
+            <index>21</index>
+        </indexes>
+        <blocks>
+            <block>4</block>
+        </blocks>
+        <killingTest>
+            com.stayble.badge_log.service.BadgeRequestLogServiceTest.[engine:junit-jupiter]/[class:com.stayble.badge_log.service.BadgeRequestLogServiceTest]/[method:getBadgeStatus_okUpToDate()]
+        </killingTest>
+        <description>replaced return value with null for
+            com/stayble/badge_log/service/BadgeRequestLogServiceImpl::getBadgeStatus
+        </description>
+    </mutation>
+    <mutation detected='true' status='KILLED' numberOfTestsRun='0'>
+        <sourceFile>BadgeRequestLogServiceImpl.java</sourceFile>
+        <mutatedClass>com.stayble.badge_log.service.BadgeRequestLogServiceImpl</mutatedClass>
+        <mutatedMethod>getBadgeStatus</mutatedMethod>
+        <methodDescription>
+            (Lcom/stayble/data/entity/Product;Lcom/stayble/data/entity/Retailer;)Lcom/stayble/data/enums/BadgeStatus;
+        </methodDescription>
+        <lineNumber>93</lineNumber>
+        <mutator>org.pitest.mutationtest.engine.gregor.mutators.returns.NullReturnValsMutator</mutator>
+        <indexes>
+            <index>34</index>
+        </indexes>
+        <blocks>
+            <block>7</block>
+        </blocks>
+        <killingTest>
+            com.stayble.badge_log.service.BadgeRequestLogServiceTest.[engine:junit-jupiter]/[class:com.stayble.badge_log.service.BadgeRequestLogServiceTest]/[method:getBadgeStatus_okNotUpToDate()]
+        </killingTest>
+        <description>replaced return value with null for
+            com/stayble/badge_log/service/BadgeRequestLogServiceImpl::getBadgeStatus
+        </description>
+    </mutation>
+    <mutation detected='true' status='KILLED' numberOfTestsRun='0'>
+        <sourceFile>BadgeRequestLogServiceImpl.java</sourceFile>
+        <mutatedClass>com.stayble.badge_log.service.BadgeRequestLogServiceImpl</mutatedClass>
+        <mutatedMethod>getBadgeStatus</mutatedMethod>
+        <methodDescription>
+            (Lcom/stayble/data/entity/Product;Lcom/stayble/data/entity/Retailer;)Lcom/stayble/data/enums/BadgeStatus;
+        </methodDescription>
+        <lineNumber>95</lineNumber>
+        <mutator>org.pitest.mutationtest.engine.gregor.mutators.returns.NullReturnValsMutator</mutator>
+        <indexes>
+            <index>39</index>
+        </indexes>
+        <blocks>
+            <block>8</block>
+        </blocks>
+        <killingTest>
+            com.stayble.badge_log.service.BadgeRequestLogServiceTest.[engine:junit-jupiter]/[class:com.stayble.badge_log.service.BadgeRequestLogServiceTest]/[method:getBadgeStatus_okGrace()]
+        </killingTest>
+        <description>replaced return value with null for
+            com/stayble/badge_log/service/BadgeRequestLogServiceImpl::getBadgeStatus
+        </description>
+    </mutation>
+    <mutation detected='true' status='KILLED' numberOfTestsRun='0'>
+        <sourceFile>BadgeRequestLogServiceImpl.java</sourceFile>
+        <mutatedClass>com.stayble.badge_log.service.BadgeRequestLogServiceImpl</mutatedClass>
+        <mutatedMethod>getBrandName</mutatedMethod>
+        <methodDescription>(Ljava/lang/String;)Ljava/lang/String;</methodDescription>
+        <lineNumber>101</lineNumber>
+        <mutator>org.pitest.mutationtest.engine.gregor.mutators.NegateConditionalsMutator</mutator>
+        <indexes>
+            <index>5</index>
+        </indexes>
+        <blocks>
+            <block>1</block>
+        </blocks>
+        <killingTest>
+            com.stayble.badge_log.service.BadgeRequestLogServiceTest.[engine:junit-jupiter]/[class:com.stayble.badge_log.service.BadgeRequestLogServiceTest]/[method:logBadgeRequest_okWithBlankBrand()]
+        </killingTest>
+        <description>negated conditional</description>
+    </mutation>
+    <mutation detected='true' status='KILLED' numberOfTestsRun='0'>
+        <sourceFile>BadgeRequestLogServiceImpl.java</sourceFile>
+        <mutatedClass>com.stayble.badge_log.service.BadgeRequestLogServiceImpl</mutatedClass>
+        <mutatedMethod>getBrandName</mutatedMethod>
+        <methodDescription>(Ljava/lang/String;)Ljava/lang/String;</methodDescription>
+        <lineNumber>101</lineNumber>
+        <mutator>org.pitest.mutationtest.engine.gregor.mutators.returns.EmptyObjectReturnValsMutator</mutator>
+        <indexes>
+            <index>13</index>
+        </indexes>
+        <blocks>
+            <block>4</block>
+        </blocks>
+        <killingTest>
+            com.stayble.badge_log.service.BadgeRequestLogServiceTest.[engine:junit-jupiter]/[class:com.stayble.badge_log.service.BadgeRequestLogServiceTest]/[method:logBadgeRequest_okWithBlankBrand()]
+        </killingTest>
+        <description>replaced return value with &quot;&quot; for
+            com/stayble/badge_log/service/BadgeRequestLogServiceImpl::getBrandName
+        </description>
+    </mutation>
+    <mutation detected='true' status='KILLED' numberOfTestsRun='0'>
+        <sourceFile>BadgeRequestLogServiceImpl.java</sourceFile>
+        <mutatedClass>com.stayble.badge_log.service.BadgeRequestLogServiceImpl</mutatedClass>
+        <mutatedMethod>lambda$getBadgeInfo$2</mutatedMethod>
+        <methodDescription>(Lcom/stayble/data/entity/Product;)Lcom/stayble/badge/service/to/ProductBadgeInfo;
+        </methodDescription>
+        <lineNumber>121</lineNumber>
+        <mutator>org.pitest.mutationtest.engine.gregor.mutators.returns.NullReturnValsMutator</mutator>
+        <indexes>
+            <index>10</index>
+        </indexes>
+        <blocks>
+            <block>2</block>
+        </blocks>
+        <killingTest>
+            com.stayble.badge_log.service.BadgeRequestLogServiceTest.[engine:junit-jupiter]/[class:com.stayble.badge_log.service.BadgeRequestLogServiceTest]/[method:getBadgeProductInfo_okProductBadge()]
+        </killingTest>
+        <description>replaced return value with null for
+            com/stayble/badge_log/service/BadgeRequestLogServiceImpl::lambda$getBadgeInfo$2
+        </description>
+    </mutation>
+    <mutation detected='true' status='KILLED' numberOfTestsRun='0'>
+        <sourceFile>BadgeRequestLogServiceImpl.java</sourceFile>
+        <mutatedClass>com.stayble.badge_log.service.BadgeRequestLogServiceImpl</mutatedClass>
+        <mutatedMethod>lambda$getBadgeInfo$3</mutatedMethod>
+        <methodDescription>(Ljava/lang/String;)Lcom/stayble/badge/service/to/ProductBadgeInfo;</methodDescription>
+        <lineNumber>122</lineNumber>
+        <mutator>org.pitest.mutationtest.engine.gregor.mutators.returns.NullReturnValsMutator</mutator>
+        <indexes>
+            <index>25</index>
+        </indexes>
+        <blocks>
+            <block>6</block>
+        </blocks>
+        <killingTest>
+            com.stayble.badge_log.service.BadgeRequestLogServiceTest.[engine:junit-jupiter]/[class:com.stayble.badge_log.service.BadgeRequestLogServiceTest]/[method:getBadgeProductInfo_okNewGtinBadge()]
+        </killingTest>
+        <description>replaced return value with null for
+            com/stayble/badge_log/service/BadgeRequestLogServiceImpl::lambda$getBadgeInfo$3
+        </description>
+    </mutation>
+    <mutation detected='true' status='KILLED' numberOfTestsRun='0'>
+        <sourceFile>BadgeRequestLogServiceImpl.java</sourceFile>
+        <mutatedClass>com.stayble.badge_log.service.BadgeRequestLogServiceImpl</mutatedClass>
+        <mutatedMethod>logBadgeRequest</mutatedMethod>
+        <methodDescription>
+            (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V
+        </methodDescription>
+        <lineNumber>52</lineNumber>
+        <mutator>org.pitest.mutationtest.engine.gregor.mutators.VoidMethodCallMutator</mutator>
+        <indexes>
+            <index>22</index>
+        </indexes>
+        <blocks>
+            <block>3</block>
+        </blocks>
+        <killingTest>
+            com.stayble.badge_log.service.BadgeRequestLogServiceTest.[engine:junit-jupiter]/[class:com.stayble.badge_log.service.BadgeRequestLogServiceTest]/[method:logBadgeRequest_okNotExistingLocationExceptionCatch()]
+        </killingTest>
+        <description>removed call to java/util/Optional::ifPresentOrElse</description>
+    </mutation>
+    <mutation detected='false' status='NO_COVERAGE' numberOfTestsRun='0'>
+        <sourceFile>TomcatLoggingConfiguration.java</sourceFile>
+        <mutatedClass>com.stayble.badge_log.configuration.TomcatLoggingConfiguration</mutatedClass>
+        <mutatedMethod>servletContainer</mutatedMethod>
+        <methodDescription>()Lorg/springframework/boot/web/servlet/server/ServletWebServerFactory;</methodDescription>
+        <lineNumber>17</lineNumber>
+        <mutator>org.pitest.mutationtest.engine.gregor.mutators.VoidMethodCallMutator</mutator>
+        <indexes>
+            <index>17</index>
+        </indexes>
+        <blocks>
+            <block>2</block>
+        </blocks>
+        <killingTest/>
+        <description>removed call to ch/qos/logback/access/tomcat/LogbackValve::setAsyncSupported</description>
+    </mutation>
+    <mutation detected='false' status='NO_COVERAGE' numberOfTestsRun='0'>
+        <sourceFile>TomcatLoggingConfiguration.java</sourceFile>
+        <mutatedClass>com.stayble.badge_log.configuration.TomcatLoggingConfiguration</mutatedClass>
+        <mutatedMethod>servletContainer</mutatedMethod>
+        <methodDescription>()Lorg/springframework/boot/web/servlet/server/ServletWebServerFactory;</methodDescription>
+        <lineNumber>19</lineNumber>
+        <mutator>org.pitest.mutationtest.engine.gregor.mutators.VoidMethodCallMutator</mutator>
+        <indexes>
+            <index>22</index>
+        </indexes>
+        <blocks>
+            <block>3</block>
+        </blocks>
+        <killingTest/>
+        <description>removed call to ch/qos/logback/access/tomcat/LogbackValve::setFilename</description>
+    </mutation>
+    <mutation detected='false' status='NO_COVERAGE' numberOfTestsRun='0'>
+        <sourceFile>TomcatLoggingConfiguration.java</sourceFile>
+        <mutatedClass>com.stayble.badge_log.configuration.TomcatLoggingConfiguration</mutatedClass>
+        <mutatedMethod>servletContainer</mutatedMethod>
+        <methodDescription>()Lorg/springframework/boot/web/servlet/server/ServletWebServerFactory;</methodDescription>
+        <lineNumber>21</lineNumber>
+        <mutator>org.pitest.mutationtest.engine.gregor.mutators.VoidMethodCallMutator</mutator>
+        <indexes>
+            <index>32</index>
+        </indexes>
+        <blocks>
+            <block>4</block>
+        </blocks>
+        <killingTest/>
+        <description>removed call to
+            org/springframework/boot/web/embedded/tomcat/TomcatServletWebServerFactory::addContextValves
+        </description>
+    </mutation>
+    <mutation detected='false' status='NO_COVERAGE' numberOfTestsRun='0'>
+        <sourceFile>TomcatLoggingConfiguration.java</sourceFile>
+        <mutatedClass>com.stayble.badge_log.configuration.TomcatLoggingConfiguration</mutatedClass>
+        <mutatedMethod>servletContainer</mutatedMethod>
+        <methodDescription>()Lorg/springframework/boot/web/servlet/server/ServletWebServerFactory;</methodDescription>
+        <lineNumber>23</lineNumber>
+        <mutator>org.pitest.mutationtest.engine.gregor.mutators.returns.NullReturnValsMutator</mutator>
+        <indexes>
+            <index>36</index>
+        </indexes>
+        <blocks>
+            <block>5</block>
+        </blocks>
+        <killingTest/>
+        <description>replaced return value with null for
+            com/stayble/badge_log/configuration/TomcatLoggingConfiguration::servletContainer
+        </description>
+    </mutation>
+    <mutation detected='false' status='NO_COVERAGE' numberOfTestsRun='0'>
+        <sourceFile>MethodTimingAspect.java</sourceFile>
+        <mutatedClass>com.stayble.badge_log.configuration.MethodTimingAspect</mutatedClass>
+        <mutatedMethod>measureExecutionTime</mutatedMethod>
+        <methodDescription>(Lorg/aspectj/lang/ProceedingJoinPoint;)Ljava/lang/Object;</methodDescription>
+        <lineNumber>18</lineNumber>
+        <mutator>org.pitest.mutationtest.engine.gregor.mutators.MathMutator</mutator>
+        <indexes>
+            <index>14</index>
+        </indexes>
+        <blocks>
+            <block>3</block>
+        </blocks>
+        <killingTest/>
+        <description>Replaced long subtraction with addition</description>
+    </mutation>
+    <mutation detected='false' status='NO_COVERAGE' numberOfTestsRun='0'>
+        <sourceFile>MethodTimingAspect.java</sourceFile>
+        <mutatedClass>com.stayble.badge_log.configuration.MethodTimingAspect</mutatedClass>
+        <mutatedMethod>measureExecutionTime</mutatedMethod>
+        <methodDescription>(Lorg/aspectj/lang/ProceedingJoinPoint;)Ljava/lang/Object;</methodDescription>
+        <lineNumber>21</lineNumber>
+        <mutator>org.pitest.mutationtest.engine.gregor.mutators.returns.NullReturnValsMutator</mutator>
+        <indexes>
+            <index>19</index>
+        </indexes>
+        <blocks>
+            <block>3</block>
+        </blocks>
+        <killingTest/>
+        <description>replaced return value with null for
+            com/stayble/badge_log/configuration/MethodTimingAspect::measureExecutionTime
+        </description>
+    </mutation>
+</mutations>

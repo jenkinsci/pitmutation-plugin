@@ -6,6 +6,8 @@ import org.kohsuke.stapler.StaplerResponse;
 
 import java.io.IOException;
 
+import static hudson.model.Result.FAILURE;
+
 /**
  * @author Ed Kimber
  */
@@ -24,7 +26,7 @@ public class PitProjectAction extends Actionable implements ProminentProjectActi
      */
     public PitBuildAction getLastResult() {
         for (AbstractBuild<?, ?> b = project.getLastSuccessfulBuild(); b != null; b = b.getPreviousNotFailedBuild()) {
-            if (b.getResult() == Result.FAILURE)
+            if (b.getResult() == FAILURE)
                 continue;
             PitBuildAction r = b.getAction(PitBuildAction.class);
             if (r != null)
@@ -44,7 +46,7 @@ public class PitProjectAction extends Actionable implements ProminentProjectActi
      */
     public Integer getLastResultBuild() {
         for (AbstractBuild<?, ?> b = project.getLastSuccessfulBuild(); b != null; b = b.getPreviousNotFailedBuild()) {
-            if (b.getResult() == Result.FAILURE)
+            if (b.getResult() == FAILURE)
                 continue;
             PitBuildAction r = b.getAction(PitBuildAction.class);
             if (r != null)

@@ -9,7 +9,9 @@
         </methodDescription>
         <lineNumber>332</lineNumber>
         <mutator>org.pitest.mutationtest.engine.gregor.mutators.NegateConditionalsMutator</mutator>
-        <index>5</index>
+        <indexes>
+            <index>5</index>
+        </indexes>
         <killingTest/>
         <description>negated conditional</description>
     </mutation>
@@ -22,7 +24,9 @@
         </methodDescription>
         <lineNumber>342</lineNumber>
         <mutator>org.pitest.mutationtest.engine.gregor.mutators.NegateConditionalsMutator</mutator>
-        <index>47</index>
+        <indexes>
+            <index>47</index>
+        </indexes>
         <killingTest>es.rodri.MSInvoiceDetailTest.testController7(es.rodri.MSInvoiceDetailTest)</killingTest>
         <description>negated conditional</description>
     </mutation>
@@ -35,7 +39,9 @@
         </methodDescription>
         <lineNumber>344</lineNumber>
         <mutator>org.pitest.mutationtest.engine.gregor.mutators.NegateConditionalsMutator</mutator>
-        <index>56</index>
+        <indexes>
+            <index>56</index>
+        </indexes>
         <killingTest/>
         <description>negated conditional</description>
     </mutation>
@@ -48,7 +54,9 @@
         </methodDescription>
         <lineNumber>344</lineNumber>
         <mutator>org.pitest.mutationtest.engine.gregor.mutators.NegateConditionalsMutator</mutator>
-        <index>59</index>
+        <indexes>
+            <index>59</index>
+        </indexes>
         <killingTest/>
         <description>negated conditional</description>
     </mutation>
