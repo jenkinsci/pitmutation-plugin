@@ -127,3 +127,4 @@ work
 .vscode/
 
 .DS_Store
+.aider*
