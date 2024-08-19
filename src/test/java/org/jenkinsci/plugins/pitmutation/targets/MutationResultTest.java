@@ -25,148 +25,146 @@ import static org.mockito.Mockito.when;
  */
 public abstract class MutationResultTest {
 
-  private MutationResult<?> projectResult;
-  private MutationResult<?> moduleResult;
+    private MutationResult<?> projectResult;
+    private MutationResult<?> moduleResult;
 
-  @BeforeEach
-  public void setUp() throws IOException, SAXException {
-    MutationReport reportOld =
-      new MutationReport(MutationReport.class.getResourceAsStream("testmutations-00.xml"));
-    MutationReport reportNew =
-      new MutationReport(MutationReport.class.getResourceAsStream("testmutations-01.xml"));
-    Map<String, MutationReport> reportsNew = new HashMap<>();
-    Map<String, MutationReport> reportsOld = new HashMap<>();
-    reportsNew.put("test_report", reportNew);
-    reportsOld.put("test_report", reportOld);
+    @BeforeEach
+    public void setUp() throws IOException, SAXException {
+        MutationReport reportOld = new MutationReport(MutationReport.class.getResourceAsStream("testmutations-00.xml"));
+        MutationReport reportNew = new MutationReport(MutationReport.class.getResourceAsStream("testmutations-01.xml"));
+        Map<String, MutationReport> reportsNew = new HashMap<>();
+        Map<String, MutationReport> reportsOld = new HashMap<>();
+        reportsNew.put("test_report", reportNew);
+        reportsOld.put("test_report", reportOld);
 
-    PitBuildAction buildAction = mock(PitBuildAction.class);
-    when(buildAction.getReports()).thenReturn(reportsNew);
+        PitBuildAction buildAction = mock(PitBuildAction.class);
+        when(buildAction.getReports()).thenReturn(reportsNew);
 
-    PitBuildAction previousBuildAction = mock(PitBuildAction.class);
-    when(previousBuildAction.getReports()).thenReturn(reportsOld);
-    when(previousBuildAction.getReport()).thenReturn(new ProjectMutations(previousBuildAction));
+        PitBuildAction previousBuildAction = mock(PitBuildAction.class);
+        when(previousBuildAction.getReports()).thenReturn(reportsOld);
+        when(previousBuildAction.getReport()).thenReturn(new ProjectMutations(previousBuildAction));
 
-    when(buildAction.getPreviousAction()).thenReturn(previousBuildAction);
+        when(buildAction.getPreviousAction()).thenReturn(previousBuildAction);
 
-    projectResult = new ProjectMutations(buildAction);
-    moduleResult = projectResult.getChildMap().get("test_report");
-    assertThat(moduleResult, not(nullValue()));
-    assertThat(projectResult.getPreviousResult(), not(nullValue()));
-  }
-
-  @Test
-  void mutationResultStatsDelta() {
-    MutationStats delta = projectResult.getStatsDelta();
-    assertThat(delta.getTotalMutations(), is(3));
-    assertThat(delta.getKillCount(), is(-1));
-  }
-
-  private MutationResult packageResult() {
-    return projectResult.getChildResult("test_report").getChildResult("org.jenkinsci.plugins.pitmutation");
-  }
-
-  @Test
-  void packageResultsStatsDelta() {
-    MutationStats delta = packageResult().getStatsDelta();
-    assertThat(delta.getTotalMutations(), is(3));
-    assertThat(delta.getKillCount(), is(-1));
-  }
-
-  private MutationResult classResult(String className) {
-    return packageResult().getChildResult(className);
-  }
-
-  @Test
-  void classResultsStats() {
-    MutationStats stats = classResult("org.jenkinsci.plugins.pitmutation.Mutation").getMutationStats();
-    assertThat(stats.getTotalMutations(), is(3));
-    assertThat(stats.getKillCount(), is(1));
-  }
-
-  @Test
-  void classResultsStatsDelta() {
-    MutationStats delta = classResult("org.jenkinsci.plugins.pitmutation.Mutation").getStatsDelta();
-    assertThat(delta.getTotalMutations(), is(-1));
-    assertThat(delta.getKillCount(), is(-2));
-  }
-
-  @Test
-  void classResultsForNewClass() {
-    MutationStats stats = classResult("org.jenkinsci.plugins.pitmutation.NewMutatedClass").getMutationStats();
-    assertThat(stats.getTotalMutations(), is(1));
-    assertThat(stats.getKillCount(), is(0));
-  }
-
-  @Test
-  void classResultsForNewClassDelta() {
-    MutationStats stats = classResult("org.jenkinsci.plugins.pitmutation.NewMutatedClass").getStatsDelta();
-    assertThat(stats.getTotalMutations(), is(1));
-    assertThat(stats.getKillCount(), is(0));
-  }
-
-  @Test
-  void classResultsOrdered() {
-    Iterator<? extends MutationResult> classes = moduleResult.getChildren().iterator();
-    int undetected = classes.next().getMutationStats().getUndetected();
-
-    while (classes.hasNext()) {
-      MutationResult result = classes.next();
-      assertThat(result.getMutationStats().getUndetected(), lessThan(undetected));
-      undetected = result.getMutationStats().getUndetected();
+        projectResult = new ProjectMutations(buildAction);
+        moduleResult = projectResult.getChildMap().get("test_report");
+        assertThat(moduleResult, not(nullValue()));
+        assertThat(projectResult.getPreviousResult(), not(nullValue()));
     }
-  }
 
-  @Test
-  void urlTransformPackageName() {
-    assertThat(moduleResult.getChildMap().get("org.jenkinsci.plugins.pitmutation").getUrl(),
-               is("org_jenkinsci_plugins_pitmutation"));
-  }
+    @Test
+    void mutationResultStatsDelta() {
+        MutationStats delta = projectResult.getStatsDelta();
+        assertThat(delta.getTotalMutations(), is(3));
+        assertThat(delta.getKillCount(), is(-1));
+    }
 
-  @Test
-  void urlTransformClassName() {
-    assertThat(moduleResult
-                 .getChildMap()
-                 .get("org.jenkinsci.plugins.pitmutation")
-                 .getChildMap()
-                 .get("org.jenkinsci.plugins.pitmutation.PitParser")
-                 .getUrl(), is("org_jenkinsci_plugins_pitmutation_PitParser"));
-  }
+    private MutationResult packageResult() {
+        return projectResult.getChildResult("test_report").getChildResult("org.jenkinsci.plugins.pitmutation");
+    }
 
-  @Test
-  void findsMutationsOnPitParserClass() {
-    MutationResult<?> pitPackage = moduleResult.getChildMap().get("org.jenkinsci.plugins.pitmutation");
-    assertThat(pitPackage.getChildren(), hasSize(5));
-    MutationResult<?> pitParser = pitPackage.getChildMap().get("org.jenkinsci.plugins.pitmutation.PitParser");
-    assertThat(pitParser.getChildren(), hasSize(3));
-  }
+    @Test
+    void packageResultsStatsDelta() {
+        MutationStats delta = packageResult().getStatsDelta();
+        assertThat(delta.getTotalMutations(), is(3));
+        assertThat(delta.getKillCount(), is(-1));
+    }
 
-  @Test
-  void collectsMutationStats() {
-    MutationStats stats = projectResult.getMutationStats();
-    assertThat(stats.getTotalMutations(), is(19));
-    assertThat(stats.getUndetected(), is(15));
-  }
+    private MutationResult classResult(String className) {
+        return packageResult().getChildResult(className);
+    }
 
-  @Test
-  void correctSourceLevels() {
-    MutationResult<?> pitPackage = moduleResult.getChildMap().get("org.jenkinsci.plugins.pitmutation");
-    MutationResult<?> pitParser = pitPackage.getChildMap().get("org.jenkinsci.plugins.pitmutation.PitParser");
-    MutationResult<?> lineResult = pitParser.getChildMap().values().iterator().next();
+    @Test
+    void classResultsStats() {
+        MutationStats stats = classResult("org.jenkinsci.plugins.pitmutation.Mutation").getMutationStats();
+        assertThat(stats.getTotalMutations(), is(3));
+        assertThat(stats.getKillCount(), is(1));
+    }
 
-    assertThat(projectResult.isSourceLevel(), is(false));
-    assertThat(moduleResult.isSourceLevel(), is(false));
-    assertThat(pitPackage.isSourceLevel(), is(false));
-    assertThat(pitParser.isSourceLevel(), is(true));
-    assertThat(lineResult.isSourceLevel(), is(false));
-  }
+    @Test
+    void classResultsStatsDelta() {
+        MutationStats delta = classResult("org.jenkinsci.plugins.pitmutation.Mutation").getStatsDelta();
+        assertThat(delta.getTotalMutations(), is(-1));
+        assertThat(delta.getKillCount(), is(-2));
+    }
 
-  @Test
-  void testXmlTransform() {
-    assertThat(MutationResult.xmlTransform("replace&and<and>"), is("replace&amp;and&lt;and&gt;"));
-  }
+    @Test
+    void classResultsForNewClass() {
+        MutationStats stats = classResult("org.jenkinsci.plugins.pitmutation.NewMutatedClass").getMutationStats();
+        assertThat(stats.getTotalMutations(), is(1));
+        assertThat(stats.getKillCount(), is(0));
+    }
 
-  @Test
-  void testUrlTransform() {
-    assertThat(MutationResult.urlTransform("^*!replace::non+'alphas@}129"), is("___replace__non__alphas__129"));
-  }
+    @Test
+    void classResultsForNewClassDelta() {
+        MutationStats stats = classResult("org.jenkinsci.plugins.pitmutation.NewMutatedClass").getStatsDelta();
+        assertThat(stats.getTotalMutations(), is(1));
+        assertThat(stats.getKillCount(), is(0));
+    }
+
+    @Test
+    void classResultsOrdered() {
+        Iterator<? extends MutationResult> classes = moduleResult.getChildren().iterator();
+        int undetected = classes.next().getMutationStats().getUndetected();
+
+        while (classes.hasNext()) {
+            MutationResult result = classes.next();
+            assertThat(result.getMutationStats().getUndetected(), lessThan(undetected));
+            undetected = result.getMutationStats().getUndetected();
+        }
+    }
+
+    @Test
+    void urlTransformPackageName() {
+        assertThat(moduleResult.getChildMap().get("org.jenkinsci.plugins.pitmutation").getUrl(),
+                   is("org_jenkinsci_plugins_pitmutation"));
+    }
+
+    @Test
+    void urlTransformClassName() {
+        assertThat(moduleResult
+                       .getChildMap()
+                       .get("org.jenkinsci.plugins.pitmutation")
+                       .getChildMap()
+                       .get("org.jenkinsci.plugins.pitmutation.PitParser")
+                       .getUrl(), is("org_jenkinsci_plugins_pitmutation_PitParser"));
+    }
+
+    @Test
+    void findsMutationsOnPitParserClass() {
+        MutationResult<?> pitPackage = moduleResult.getChildMap().get("org.jenkinsci.plugins.pitmutation");
+        assertThat(pitPackage.getChildren(), hasSize(5));
+        MutationResult<?> pitParser = pitPackage.getChildMap().get("org.jenkinsci.plugins.pitmutation.PitParser");
+        assertThat(pitParser.getChildren(), hasSize(3));
+    }
+
+    @Test
+    void collectsMutationStats() {
+        MutationStats stats = projectResult.getMutationStats();
+        assertThat(stats.getTotalMutations(), is(19));
+        assertThat(stats.getUndetected(), is(15));
+    }
+
+    @Test
+    void correctSourceLevels() {
+        MutationResult<?> pitPackage = moduleResult.getChildMap().get("org.jenkinsci.plugins.pitmutation");
+        MutationResult<?> pitParser = pitPackage.getChildMap().get("org.jenkinsci.plugins.pitmutation.PitParser");
+        MutationResult<?> lineResult = pitParser.getChildMap().values().iterator().next();
+
+        assertThat(projectResult.isSourceLevel(), is(false));
+        assertThat(moduleResult.isSourceLevel(), is(false));
+        assertThat(pitPackage.isSourceLevel(), is(false));
+        assertThat(pitParser.isSourceLevel(), is(true));
+        assertThat(lineResult.isSourceLevel(), is(false));
+    }
+
+    @Test
+    void testXmlTransform() {
+        assertThat(MutationResult.xmlTransform("replace&and<and>"), is("replace&amp;and&lt;and&gt;"));
+    }
+
+    @Test
+    void testUrlTransform() {
+        assertThat(MutationResult.urlTransform("^*!replace::non+'alphas@}129"), is("___replace__non__alphas__129"));
+    }
 }

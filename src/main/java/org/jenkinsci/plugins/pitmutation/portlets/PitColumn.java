@@ -52,11 +52,10 @@ public class PitColumn extends ListViewColumn {
         final double doubleValue = percentageFloat.doubleValue();
 
         final int decimalPlaces = 2;
-        BigDecimal bigDecimal =  BigDecimal.valueOf(doubleValue);
+        BigDecimal bigDecimal = BigDecimal.valueOf(doubleValue);
 
         // setScale is immutable
-        bigDecimal = bigDecimal.setScale(decimalPlaces,
-            RoundingMode.HALF_UP);
+        bigDecimal = bigDecimal.setScale(decimalPlaces, RoundingMode.HALF_UP);
         return bigDecimal.doubleValue();
     }
 

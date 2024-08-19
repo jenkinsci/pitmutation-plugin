@@ -34,7 +34,8 @@ import static hudson.model.Result.FAILURE;
  * @author edward
  */
 @Slf4j
-public class PitBuildAction implements HealthReportingAction, StaplerProxy {
+public class PitBuildAction implements HealthReportingAction,
+                                       StaplerProxy {
 
     private static final Pattern MUTATION_REPORT_PATTERN = Pattern.compile(".*mutation-report-([^/\\\\]*).*");
 
@@ -50,13 +51,10 @@ public class PitBuildAction implements HealthReportingAction, StaplerProxy {
         Run<?, ?> build = owner;
         while (true) {
             build = build.getPreviousBuild();
-            if (build == null)
-                return null;
-            if (build.getResult() == FAILURE)
-                continue;
+            if (build == null) {return null;}
+            if (build.getResult() == FAILURE) {continue;}
             PitBuildAction action = build.getAction(PitBuildAction.class);
-            if (action != null)
-                return action;
+            if (action != null) {return action;}
         }
     }
 
@@ -134,7 +132,7 @@ public class PitBuildAction implements HealthReportingAction, StaplerProxy {
     @Override
     public HealthReport getBuildHealth() {
         return new HealthReport((int) getReport().getMutationStats().getKillPercent(),
-            Messages._BuildAction_Description(getReport().getMutationStats().getKillPercent()));
+                                Messages._BuildAction_Description(getReport().getMutationStats().getKillPercent()));
     }
 
     @Override
@@ -175,14 +173,14 @@ public class PitBuildAction implements HealthReportingAction, StaplerProxy {
 
 
         final JFreeChart chart = ChartFactory.createLineChart(null, // chart title
-            null, // unused
-            "%", // range axis label
-            dsb.build(), // data
-            PlotOrientation.VERTICAL, // orientation
-            true, // include legend
-            true, // tooltips
-            false // urls
-        );//    JFreeChart chart = new MutationChart(this).createChart();
+                                                              null, // unused
+                                                              "%", // range axis label
+                                                              dsb.build(), // data
+                                                              PlotOrientation.VERTICAL, // orientation
+                                                              true, // include legend
+                                                              true, // tooltips
+                                                              false // urls
+                                                             );//    JFreeChart chart = new MutationChart(this).createChart();
         ChartUtil.generateGraph(req, rsp, chart, 500, 200);
     }
 }

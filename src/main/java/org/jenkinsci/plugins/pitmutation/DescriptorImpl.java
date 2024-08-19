@@ -15,30 +15,30 @@ import org.kohsuke.stapler.StaplerRequest;
 @Symbol("pitmutation")
 public class DescriptorImpl extends BuildStepDescriptor<Publisher> {
 
-  /**
-   * Instantiates a new Descriptor.
-   */
-  public DescriptorImpl() {
-    super(PitPublisher.class);
-  }
+    /**
+     * Instantiates a new Descriptor.
+     */
+    public DescriptorImpl() {
+        super(PitPublisher.class);
+    }
 
-  @Override
-  public String getDisplayName() {
-    return Messages.PitPublisher_DisplayName();
-  }
+    @Override
+    public String getDisplayName() {
+        return Messages.PitPublisher_DisplayName();
+    }
 
-  @Override
-  public boolean isApplicable(Class<? extends AbstractProject> aClass) {
-    return true;
-  }
+    @Override
+    public boolean isApplicable(Class<? extends AbstractProject> aClass) {
+        return true;
+    }
 
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  public boolean configure(StaplerRequest req, JSONObject formData) throws FormException {
-    req.bindParameters(this, "pitmutation");
-    save();
-    return super.configure(req, formData);
-  }
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean configure(StaplerRequest req, JSONObject formData) throws FormException {
+        req.bindParameters(this, "pitmutation");
+        save();
+        return super.configure(req, formData);
+    }
 }

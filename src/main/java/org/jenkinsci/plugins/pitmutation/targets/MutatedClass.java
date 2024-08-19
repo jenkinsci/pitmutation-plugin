@@ -43,7 +43,8 @@ public class MutatedClass extends MutationResult<MutatedClass> {
     }
 
     private Map<String, MutatedLine> createMutatedLines(Collection<Mutation> mutations) {
-        return mutations.stream()
+        return mutations
+            .stream()
             .collect(groupingBy(Mutation::getLineNumber))
             .values()
             .stream()
@@ -58,17 +59,20 @@ public class MutatedClass extends MutationResult<MutatedClass> {
 
     /**
      * Gets the contents of the coverage report for the file, but removes the header and the stylesheet as this needs to be handled separately in jelly.
+     *
      * @return The source of the coverage report to show in the UI
      */
     @Override
     public String getSourceFileContent() {
         String fullContents = getFileContents(package_ + File.separator + fileName);
-        return fullContents.contains(END_HEADER_TAG) ? fullContents.substring(fullContents.indexOf(END_HEADER_TAG) + 5) :
-            fullContents;
+        return fullContents.contains(END_HEADER_TAG) ?
+               fullContents.substring(fullContents.indexOf(END_HEADER_TAG) + 5) :
+               fullContents;
     }
 
     /**
      * Gets the contents of the style sheet for the coverage report.
+     *
      * @return The source of the coverage report to show in the UI.
      */
     @Override
@@ -78,12 +82,10 @@ public class MutatedClass extends MutationResult<MutatedClass> {
 
     private String getFileContents(String path) {
         String filePath =
-            getOwner().getRootDir() + File.separator + getMutationReportDirectory() +
-                File.separator + path;
+            getOwner().getRootDir() + File.separator + getMutationReportDirectory() + File.separator + path;
         try {
             return new TextFile(new File(filePath)).read();
-        }
-        catch (IOException exception) {
+        } catch (IOException exception) {
             return "Could not read file: " + filePath + "\n";
         }
     }
@@ -110,16 +112,15 @@ public class MutatedClass extends MutationResult<MutatedClass> {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o)
-            return true;
-        if (o == null || getClass() != o.getClass())
-            return false;
+        if (this == o) {return true;}
+        if (o == null || getClass() != o.getClass()) {return false;}
         MutatedClass that = (MutatedClass) o;
-        return Objects.equals(name, that.name) &&
-            Objects.equals(package_, that.package_) &&
-            Objects.equals(fileName, that.fileName) &&
-            Objects.equals(mutations, that.mutations) &&
-            Objects.equals(mutatedLines, that.mutatedLines);
+        return Objects.equals(name, that.name)
+               && Objects.equals(package_, that.package_)
+               && Objects.equals(fileName,
+                                 that.fileName)
+               && Objects.equals(mutations, that.mutations)
+               && Objects.equals(mutatedLines, that.mutatedLines);
     }
 
     @Override

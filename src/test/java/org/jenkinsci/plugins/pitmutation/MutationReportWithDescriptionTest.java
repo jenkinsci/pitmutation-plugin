@@ -18,38 +18,38 @@ import static org.hamcrest.core.Is.is;
  */
 class MutationReportWithDescriptionTest {
 
-  private InputStream mutationsXml;
+    private InputStream mutationsXml;
 
-  @BeforeEach
-  public void setUp() {
-    mutationsXml = getClass().getResourceAsStream("testmutations-02.xml");
-  }
+    @BeforeEach
+    public void setUp() {
+        mutationsXml = getClass().getResourceAsStream("testmutations-02.xml");
+    }
 
-  @Test
-  void packageNameFinder() {
-    assertThat(MutationReport.packageNameFromClass("xxx.yyy.zzz.Foo"), is("xxx.yyy.zzz"));
-    assertThat(MutationReport.packageNameFromClass("Foo"), is(""));
-  }
+    @Test
+    void packageNameFinder() {
+        assertThat(MutationReport.packageNameFromClass("xxx.yyy.zzz.Foo"), is("xxx.yyy.zzz"));
+        assertThat(MutationReport.packageNameFromClass("Foo"), is(""));
+    }
 
-  @Test
-  void countsKills() throws IOException, SAXException {
-    MutationReport report = new MutationReport(mutationsXml);
-    assertThat(report.getMutationStats().getKillCount(), is(3));
-    assertThat(report.getMutationStats().getTotalMutations(), is(4));
-  }
+    @Test
+    void countsKills() throws IOException, SAXException {
+        MutationReport report = new MutationReport(mutationsXml);
+        assertThat(report.getMutationStats().getKillCount(), is(3));
+        assertThat(report.getMutationStats().getTotalMutations(), is(4));
+    }
 
-  @Test
-  void sortsMutationsByClassName() throws IOException, SAXException {
-    MutationReport report = new MutationReport(mutationsXml);
-    Collection<Mutation> mutations = report.getMutationsForClassName("es.rodri.controllers.CompositorController");
-    assertThat(mutations.size(), is(4));
-  }
+    @Test
+    void sortsMutationsByClassName() throws IOException, SAXException {
+        MutationReport report = new MutationReport(mutationsXml);
+        Collection<Mutation> mutations = report.getMutationsForClassName("es.rodri.controllers.CompositorController");
+        assertThat(mutations.size(), is(4));
+    }
 
-  @Test
-  void indexesMutationsByPackage() throws IOException, SAXException {
-    MutationReport report = new MutationReport(mutationsXml);
-    assertThat(report.getMutationsForPackage("es.rodri.controllers"), hasSize(4));
-    assertThat(report.getMutationsForPackage(""), notNullValue());
-    assertThat(report.getMutationsForPackage(""), hasSize(0));
-  }
+    @Test
+    void indexesMutationsByPackage() throws IOException, SAXException {
+        MutationReport report = new MutationReport(mutationsXml);
+        assertThat(report.getMutationsForPackage("es.rodri.controllers"), hasSize(4));
+        assertThat(report.getMutationsForPackage(""), notNullValue());
+        assertThat(report.getMutationsForPackage(""), hasSize(0));
+    }
 }

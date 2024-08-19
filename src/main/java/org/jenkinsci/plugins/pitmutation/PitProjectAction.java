@@ -26,11 +26,9 @@ public class PitProjectAction extends Actionable implements ProminentProjectActi
      */
     public PitBuildAction getLastResult() {
         for (AbstractBuild<?, ?> b = project.getLastSuccessfulBuild(); b != null; b = b.getPreviousNotFailedBuild()) {
-            if (b.getResult() == FAILURE)
-                continue;
+            if (b.getResult() == FAILURE) {continue;}
             PitBuildAction r = b.getAction(PitBuildAction.class);
-            if (r != null)
-                return r;
+            if (r != null) {return r;}
         }
         return null;
     }
@@ -46,11 +44,9 @@ public class PitProjectAction extends Actionable implements ProminentProjectActi
      */
     public Integer getLastResultBuild() {
         for (AbstractBuild<?, ?> b = project.getLastSuccessfulBuild(); b != null; b = b.getPreviousNotFailedBuild()) {
-            if (b.getResult() == FAILURE)
-                continue;
+            if (b.getResult() == FAILURE) {continue;}
             PitBuildAction r = b.getAction(PitBuildAction.class);
-            if (r != null)
-                return b.getNumber();
+            if (r != null) {return b.getNumber();}
         }
         return null;
     }
@@ -89,7 +85,6 @@ public class PitProjectAction extends Actionable implements ProminentProjectActi
     }
 
     public void doGraph(StaplerRequest req, StaplerResponse rsp) throws IOException {
-        if (getLastResult() != null)
-            getLastResult().doGraph(req, rsp);
+        if (getLastResult() != null) {getLastResult().doGraph(req, rsp);}
     }
 }

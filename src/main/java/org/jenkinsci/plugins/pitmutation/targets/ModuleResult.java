@@ -53,13 +53,10 @@ public class ModuleResult extends MutationResult<ModuleResult> {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o)
-            return true;
-        if (o == null || getClass() != o.getClass())
-            return false;
+        if (this == o) {return true;}
+        if (o == null || getClass() != o.getClass()) {return false;}
         ModuleResult that = (ModuleResult) o;
-        return Objects.equals(report, that.report) &&
-            Objects.equals(name, that.name);
+        return Objects.equals(report, that.report) && Objects.equals(name, that.name);
     }
 
     @Override

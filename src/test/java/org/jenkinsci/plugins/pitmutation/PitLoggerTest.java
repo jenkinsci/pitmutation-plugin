@@ -21,63 +21,63 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 class PitLoggerTest {
 
-  @Mock
-  private TaskListener listener;
-  @Mock
-  private PitBuildAction action;
-  @Mock
-  private MutationResult report;
-  @Mock
-  private MutationStats stats;
-  @Mock
-  private PrintStream printStream;
+    @Mock
+    private TaskListener listener;
+    @Mock
+    private PitBuildAction action;
+    @Mock
+    private MutationResult report;
+    @Mock
+    private MutationStats stats;
+    @Mock
+    private PrintStream printStream;
 
-  private PitLogger pitLogger;
+    private PitLogger pitLogger;
 
-  @BeforeEach
-  void setUp() {
-    pitLogger = new PitLogger();
+    @BeforeEach
+    void setUp() {
+        pitLogger = new PitLogger();
 
-    when(listener.getLogger()).thenReturn(printStream);
-  }
+        when(listener.getLogger()).thenReturn(printStream);
+    }
 
-  @Test
-  void logResults() {
-    when(action.getReport()).thenReturn(report);
-    when(action.getPreviousAction()).thenReturn(action);
-    when(report.getMutationStats()).thenReturn(stats);
-    when(stats.getKillPercent()).thenReturn(70.0f);
+    @Test
+    void logResults() {
+        when(action.getReport()).thenReturn(report);
+        when(action.getPreviousAction()).thenReturn(action);
+        when(report.getMutationStats()).thenReturn(stats);
+        when(stats.getKillPercent()).thenReturn(70.0f);
 
-    pitLogger.logResults(listener, action);
+        pitLogger.logResults(listener, action);
 
-    verify(printStream, atLeastOnce()).println(anyString());
-  }
+        verify(printStream, atLeastOnce()).println(anyString());
+    }
 
-  @Test
-  void logMissingReportsIgnored() {
-    pitLogger.logMissingReportsIgnored(listener);
-    verify(printStream).println(anyString());
-  }
+    @Test
+    void logMissingReportsIgnored() {
+        pitLogger.logMissingReportsIgnored(listener);
+        verify(printStream).println(anyString());
+    }
 
-  @Test
-  void logBuildFailedNoReports() {
-    pitLogger.logBuildFailedNoReports(listener);
-    verify(printStream).println(anyString());
-  }
+    @Test
+    void logBuildFailedNoReports() {
+        pitLogger.logBuildFailedNoReports(listener);
+        verify(printStream).println(anyString());
+    }
 
-  @Test
-  void logLookingForReports() {
-    FilePath workspace = new FilePath(new File("path/to/workspace"));
-    pitLogger.logLookingForReports(listener, workspace);
+    @Test
+    void logLookingForReports() {
+        FilePath workspace = new FilePath(new File("path/to/workspace"));
+        pitLogger.logLookingForReports(listener, workspace);
 
-    verify(printStream).println(anyString());
-  }
+        verify(printStream).println(anyString());
+    }
 
-  @Test
-  void logPublishReport() {
-    FilePath workspace = new FilePath(new File("path/to/workspace"));
-    pitLogger.logPublishReport(listener, workspace);
+    @Test
+    void logPublishReport() {
+        FilePath workspace = new FilePath(new File("path/to/workspace"));
+        pitLogger.logPublishReport(listener, workspace);
 
-    verify(printStream).println(anyString());
-  }
+        verify(printStream).println(anyString());
+    }
 }

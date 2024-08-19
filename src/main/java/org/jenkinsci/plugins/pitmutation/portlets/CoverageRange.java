@@ -63,14 +63,14 @@ public enum CoverageRange {
         return ABYSMAL.fillColor;
     }
 
-    private static Color blendedColor(final Color fillColor0, final Color fillColor1, final double t0, final double t1) {
+    private static Color blendedColor(final Color fillColor0,
+                                      final Color fillColor1,
+                                      final double t0,
+                                      final double t1) {
         final double total = t0 + t1;
-        final int r = (int) ((fillColor0.getRed() * t1 + fillColor1.getRed()
-            * t0) / total);
-        final int g = (int) ((fillColor0.getGreen() * t1 + fillColor1
-            .getGreen() * t0) / total);
-        final int b = (int) ((fillColor0.getBlue() * t1 + fillColor1.getBlue()
-            * t0) / total);
+        final int r = (int) ((fillColor0.getRed() * t1 + fillColor1.getRed() * t0) / total);
+        final int g = (int) ((fillColor0.getGreen() * t1 + fillColor1.getGreen() * t0) / total);
+        final int b = (int) ((fillColor0.getBlue() * t1 + fillColor1.getBlue() * t0) / total);
         return new Color(r, g, b);
     }
 

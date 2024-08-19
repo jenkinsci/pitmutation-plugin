@@ -41,234 +41,236 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 class PitPublisherTest {
 
-  private static final float MINIMUM_KILL_RATIO = 0.25f;
+    private static final float MINIMUM_KILL_RATIO = 0.25f;
 
-  @Mock
-  private PitBuildAction action;
-  @Mock
-  private ProjectMutations report;
-  @Mock
-  private MutationStats stats;
-  @Mock
-  private PitLogger pitLogger;
+    @Mock
+    private PitBuildAction action;
+    @Mock
+    private ProjectMutations report;
+    @Mock
+    private MutationStats stats;
+    @Mock
+    private PitLogger pitLogger;
 
-  @Mock
-  private FileProcessor fileProcessor;
+    @Mock
+    private FileProcessor fileProcessor;
 
-  @Mock
-  private ResultDecider resultDecider;
+    @Mock
+    private ResultDecider resultDecider;
 
-  @Test
-  void ignoreMissingReports_ignore_noReports() throws Exception {
-    FileProcessor fileProcessor = mock(FileProcessor.class);
-    ResultDecider decider = mock(ResultDecider.class);
-    PitPublisher publisher =
-      new PitPublisher("**/mutations.xml", MINIMUM_KILL_RATIO, true, true, fileProcessor, decider, pitLogger);
-    TaskListener taskListener = mock(TaskListener.class);
-    Run<?, ?> build = mock(Run.class);
-    publisher.perform(build, mock(FilePath.class), mock(EnvVars.class), mock(Launcher.class), taskListener);
+    @Test
+    void ignoreMissingReports_ignore_noReports() throws Exception {
+        FileProcessor fileProcessor = mock(FileProcessor.class);
+        ResultDecider decider = mock(ResultDecider.class);
+        PitPublisher publisher =
+            new PitPublisher("**/mutations.xml", MINIMUM_KILL_RATIO, true, true, fileProcessor, decider, pitLogger);
+        TaskListener taskListener = mock(TaskListener.class);
+        Run<?, ?> build = mock(Run.class);
+        publisher.perform(build, mock(FilePath.class), mock(EnvVars.class), mock(Launcher.class), taskListener);
 
-    verify(build).setResult(SUCCESS);
-    verify(pitLogger).logMissingReportsIgnored(any());
-  }
+        verify(build).setResult(SUCCESS);
+        verify(pitLogger).logMissingReportsIgnored(any());
+    }
 
-  @Test
-  void ignoreMissingReports_doNotIgnore_noReports() throws Exception {
-    FileProcessor fileProcessor = mock(FileProcessor.class);
-    ResultDecider decider = mock(ResultDecider.class);
-    PitPublisher publisher =
-      new PitPublisher("**/mutations.xml", MINIMUM_KILL_RATIO, true, false, fileProcessor, decider, pitLogger);
-    TaskListener taskListener = mock(TaskListener.class);
-    Run<?, ?> build = mock(Run.class);
-    FilePath workspace = mock(FilePath.class);
-    when(workspace.act(any(FilePath.FileCallable.class))).thenReturn(new FilePath[]{mock(FilePath.class), mock(FilePath.class)});
+    @Test
+    void ignoreMissingReports_doNotIgnore_noReports() throws Exception {
+        FileProcessor fileProcessor = mock(FileProcessor.class);
+        ResultDecider decider = mock(ResultDecider.class);
+        PitPublisher publisher =
+            new PitPublisher("**/mutations.xml", MINIMUM_KILL_RATIO, true, false, fileProcessor, decider, pitLogger);
+        TaskListener taskListener = mock(TaskListener.class);
+        Run<?, ?> build = mock(Run.class);
+        FilePath workspace = mock(FilePath.class);
+        when(workspace.act(any(FilePath.FileCallable.class))).thenReturn(new FilePath[]{mock(FilePath.class),
+                                                                                        mock(FilePath.class)});
 
-    publisher.perform(build, workspace, mock(EnvVars.class), mock(Launcher.class), taskListener);
+        publisher.perform(build, workspace, mock(EnvVars.class), mock(Launcher.class), taskListener);
 
-    verify(build).setResult(FAILURE);
-    verify(pitLogger).logBuildFailedNoReports(any());
-  }
+        verify(build).setResult(FAILURE);
+        verify(pitLogger).logBuildFailedNoReports(any());
+    }
 
-  @Test
-  void oneReport_ioException() throws Exception {
-    FileProcessor fileProcessor = mock(FileProcessor.class);
-    ResultDecider decider = mock(ResultDecider.class);
-    PitPublisher publisher = new PitPublisher(
-      "./src/test/resources/org/jenkinsci/plugins/pitmutation/testmutations-00.xml",
-      MINIMUM_KILL_RATIO,
-      true,
-      false,
-      fileProcessor,
-      decider,
-      pitLogger);
-    TaskListener taskListener = mock(TaskListener.class);
-    FilePath workspace = mock(FilePath.class);
-    FilePath report = mock(FilePath.class);
-    when(report.exists()).thenReturn(true);
-    when(report.isDirectory()).thenReturn(false);
-    FilePath[] reports = {report};
-    when(workspace.act(any(ParseReportCallable.class))).thenReturn(reports);
-    doThrow(IOException.class).when(fileProcessor).copySingleModuleReport(any(), any());
-    Run<?, ?> build = mock(Run.class);
-    when(build.getRootDir()).thenReturn(new File("src/test/resources"));
-    publisher.perform(build, workspace, mock(EnvVars.class), mock(Launcher.class), taskListener);
+    @Test
+    void oneReport_ioException() throws Exception {
+        FileProcessor fileProcessor = mock(FileProcessor.class);
+        ResultDecider decider = mock(ResultDecider.class);
+        PitPublisher publisher = new PitPublisher(
+            "./src/test/resources/org/jenkinsci/plugins/pitmutation/testmutations-00.xml",
+            MINIMUM_KILL_RATIO,
+            true,
+            false,
+            fileProcessor,
+            decider,
+            pitLogger);
+        TaskListener taskListener = mock(TaskListener.class);
+        FilePath workspace = mock(FilePath.class);
+        FilePath report = mock(FilePath.class);
+        when(report.exists()).thenReturn(true);
+        when(report.isDirectory()).thenReturn(false);
+        FilePath[] reports = {report};
+        when(workspace.act(any(ParseReportCallable.class))).thenReturn(reports);
+        doThrow(IOException.class).when(fileProcessor).copySingleModuleReport(any(), any());
+        Run<?, ?> build = mock(Run.class);
+        when(build.getRootDir()).thenReturn(new File("src/test/resources"));
+        publisher.perform(build, workspace, mock(EnvVars.class), mock(Launcher.class), taskListener);
 
-    verify(build).setResult(FAILURE);
-    verify(pitLogger, never()).logResults(any(), any());
-  }
+        verify(build).setResult(FAILURE);
+        verify(pitLogger, never()).logResults(any(), any());
+    }
 
-  @Test
-  void oneReport() throws Exception {
-    FileProcessor fileProcessor = mock(FileProcessor.class);
-    ResultDecider decider = mock(ResultDecider.class);
-    PitPublisher publisher = new PitPublisher(
-      "./src/test/resources/org/jenkinsci/plugins/pitmutation/testmutations-00.xml",
-      MINIMUM_KILL_RATIO,
-      true,
-      false,
-      fileProcessor,
-      decider,
-      pitLogger);
-    TaskListener taskListener = mock(TaskListener.class);
-    FilePath workspace = mock(FilePath.class);
-    FilePath report = mock(FilePath.class);
-    when(report.exists()).thenReturn(true);
-    when(report.isDirectory()).thenReturn(false);
-    FilePath[] reports = {report};
-    when(workspace.act(any(ParseReportCallable.class))).thenReturn(reports);
-    doNothing().when(fileProcessor).copySingleModuleReport(any(), any());
-    Run<?, ?> build = mock(Run.class);
-    when(build.getRootDir()).thenReturn(new File("src/test/resources"));
-    when(decider.decideBuildResult(any())).thenReturn(SUCCESS);
-    publisher.perform(build, workspace, mock(EnvVars.class), mock(Launcher.class), taskListener);
+    @Test
+    void oneReport() throws Exception {
+        FileProcessor fileProcessor = mock(FileProcessor.class);
+        ResultDecider decider = mock(ResultDecider.class);
+        PitPublisher publisher = new PitPublisher(
+            "./src/test/resources/org/jenkinsci/plugins/pitmutation/testmutations-00.xml",
+            MINIMUM_KILL_RATIO,
+            true,
+            false,
+            fileProcessor,
+            decider,
+            pitLogger);
+        TaskListener taskListener = mock(TaskListener.class);
+        FilePath workspace = mock(FilePath.class);
+        FilePath report = mock(FilePath.class);
+        when(report.exists()).thenReturn(true);
+        when(report.isDirectory()).thenReturn(false);
+        FilePath[] reports = {report};
+        when(workspace.act(any(ParseReportCallable.class))).thenReturn(reports);
+        doNothing().when(fileProcessor).copySingleModuleReport(any(), any());
+        Run<?, ?> build = mock(Run.class);
+        when(build.getRootDir()).thenReturn(new File("src/test/resources"));
+        when(decider.decideBuildResult(any())).thenReturn(SUCCESS);
+        publisher.perform(build, workspace, mock(EnvVars.class), mock(Launcher.class), taskListener);
 
-    verify(build).setResult(SUCCESS);
-    verify(pitLogger).logResults(any(), any());
-  }
-
-
-  @Test
-  void multiModuleReports() throws Exception {
-    FileProcessor fileProcessor = mock(FileProcessor.class);
-    ResultDecider decider = mock(ResultDecider.class);
-    PitPublisher publisher = new PitPublisher(
-      "./src/test/resources/org/jenkinsci/plugins/pitmutation/testmutations-00.xml",
-      MINIMUM_KILL_RATIO,
-      true,
-      false,
-      fileProcessor,
-      decider,
-      pitLogger);
-    TaskListener taskListener = mock(TaskListener.class);
-    FilePath workspace = mock(FilePath.class);
-    FilePath report1 = mock(FilePath.class);
-    when(report1.exists()).thenReturn(true);
-    when(report1.isDirectory()).thenReturn(false);
-    FilePath report2 = mock(FilePath.class);
-    when(report2.exists()).thenReturn(true);
-    when(report2.isDirectory()).thenReturn(false);
-
-    FilePath[] reports = {report1, report2};
-    when(workspace.act(any(ParseReportCallable.class))).thenReturn(reports);
-    when(fileProcessor.getNames(any(), any())).thenReturn(Map.of(mock(FilePath.class),
-                                                                   "1",
-                                                                   mock(FilePath.class),
-                                                                   "2"));
-    doNothing().when(fileProcessor).copyMultiModuleReport(any(), any(), any());
-    Run<?, ?> build = mock(Run.class);
-    when(build.getRootDir()).thenReturn(new File("src/test/resources"));
-    when(decider.decideBuildResult(any())).thenReturn(SUCCESS);
-    publisher.perform(build, workspace, mock(EnvVars.class), mock(Launcher.class), taskListener);
-
-    verify(build).setResult(SUCCESS);
-    verify(pitLogger).logResults(any(), any());
-  }
+        verify(build).setResult(SUCCESS);
+        verify(pitLogger).logResults(any(), any());
+    }
 
 
-  @Test
-  void multiModuleReports_ioException() throws Exception {
-    FileProcessor fileProcessor = mock(FileProcessor.class);
-    ResultDecider decider = mock(ResultDecider.class);
-    PitPublisher publisher = new PitPublisher(
-      "./src/test/resources/org/jenkinsci/plugins/pitmutation/testmutations-00.xml",
-      MINIMUM_KILL_RATIO,
-      true,
-      false,
-      fileProcessor,
-      decider,
-      pitLogger);
-    TaskListener taskListener = mock(TaskListener.class);
-    FilePath workspace = mock(FilePath.class);
-    FilePath report1 = mock(FilePath.class);
-    when(report1.exists()).thenReturn(true);
-    when(report1.isDirectory()).thenReturn(false);
+    @Test
+    void multiModuleReports() throws Exception {
+        FileProcessor fileProcessor = mock(FileProcessor.class);
+        ResultDecider decider = mock(ResultDecider.class);
+        PitPublisher publisher = new PitPublisher(
+            "./src/test/resources/org/jenkinsci/plugins/pitmutation/testmutations-00.xml",
+            MINIMUM_KILL_RATIO,
+            true,
+            false,
+            fileProcessor,
+            decider,
+            pitLogger);
+        TaskListener taskListener = mock(TaskListener.class);
+        FilePath workspace = mock(FilePath.class);
+        FilePath report1 = mock(FilePath.class);
+        when(report1.exists()).thenReturn(true);
+        when(report1.isDirectory()).thenReturn(false);
+        FilePath report2 = mock(FilePath.class);
+        when(report2.exists()).thenReturn(true);
+        when(report2.isDirectory()).thenReturn(false);
 
-    FilePath report2 = mock(FilePath.class);
-    when(report2.exists()).thenReturn(true);
-    when(report2.isDirectory()).thenReturn(false);
+        FilePath[] reports = {report1, report2};
+        when(workspace.act(any(ParseReportCallable.class))).thenReturn(reports);
+        when(fileProcessor.getNames(any(), any())).thenReturn(Map.of(mock(FilePath.class),
+                                                                     "1",
+                                                                     mock(FilePath.class),
+                                                                     "2"));
+        doNothing().when(fileProcessor).copyMultiModuleReport(any(), any(), any());
+        Run<?, ?> build = mock(Run.class);
+        when(build.getRootDir()).thenReturn(new File("src/test/resources"));
+        when(decider.decideBuildResult(any())).thenReturn(SUCCESS);
+        publisher.perform(build, workspace, mock(EnvVars.class), mock(Launcher.class), taskListener);
 
-    FilePath[] reports = {report1, report2};
-    when(workspace.act(any(ParseReportCallable.class))).thenReturn(reports);
-    when(fileProcessor.getNames(any(), any())).thenReturn(Map.of(mock(FilePath.class),
-                                                                 "1",
-                                                                 mock(FilePath.class),
-                                                                 "2"));
-    doThrow(IOException.class).when(fileProcessor).copyMultiModuleReport(any(), any(), any());
-    Run<?, ?> build = mock(Run.class);
-    when(build.getRootDir()).thenReturn(new File("src/test/resources"));
-    publisher.perform(build, workspace, mock(EnvVars.class), mock(Launcher.class), taskListener);
+        verify(build).setResult(SUCCESS);
+        verify(pitLogger).logResults(any(), any());
+    }
 
-    verify(build).setResult(FAILURE);
-    verify(pitLogger, never()).logResults(any(), any());
-  }
-  @Test
-  void getMinimumKillRatio() {
-    PitPublisher pitPublisher = new PitPublisher("target/pit-reports/mutations.xml", 0.5f, false, false);
-    assertEquals(0.5f, pitPublisher.getMinimumKillRatio());
-  }
 
-  @Test
-  void getKillRatioMustImprove() {
-    PitPublisher pitPublisher = new PitPublisher("target/pit-reports/mutations.xml", 0.5f, true, false);
-    assertTrue(pitPublisher.getKillRatioMustImprove());
-  }
+    @Test
+    void multiModuleReports_ioException() throws Exception {
+        FileProcessor fileProcessor = mock(FileProcessor.class);
+        ResultDecider decider = mock(ResultDecider.class);
+        PitPublisher publisher = new PitPublisher(
+            "./src/test/resources/org/jenkinsci/plugins/pitmutation/testmutations-00.xml",
+            MINIMUM_KILL_RATIO,
+            true,
+            false,
+            fileProcessor,
+            decider,
+            pitLogger);
+        TaskListener taskListener = mock(TaskListener.class);
+        FilePath workspace = mock(FilePath.class);
+        FilePath report1 = mock(FilePath.class);
+        when(report1.exists()).thenReturn(true);
+        when(report1.isDirectory()).thenReturn(false);
 
-  @Test
-  void getIgnoreMissingReports() {
-    PitPublisher pitPublisher = new PitPublisher("target/pit-reports/mutations.xml", 0.5f, false, true);
-    assertTrue(pitPublisher.getIgnoreMissingReports());
-  }
+        FilePath report2 = mock(FilePath.class);
+        when(report2.exists()).thenReturn(true);
+        when(report2.isDirectory()).thenReturn(false);
 
-  @Test
-  void setIgnoreMissingReports_true() {
-    PitPublisher pitPublisher = new PitPublisher("target/pit-reports/mutations.xml", 0.5f, false, false);
-    pitPublisher.setIgnoreMissingReports(true);
-    assertTrue(pitPublisher.getIgnoreMissingReports());
-  }
+        FilePath[] reports = {report1, report2};
+        when(workspace.act(any(ParseReportCallable.class))).thenReturn(reports);
+        when(fileProcessor.getNames(any(), any())).thenReturn(Map.of(mock(FilePath.class),
+                                                                     "1",
+                                                                     mock(FilePath.class),
+                                                                     "2"));
+        doThrow(IOException.class).when(fileProcessor).copyMultiModuleReport(any(), any(), any());
+        Run<?, ?> build = mock(Run.class);
+        when(build.getRootDir()).thenReturn(new File("src/test/resources"));
+        publisher.perform(build, workspace, mock(EnvVars.class), mock(Launcher.class), taskListener);
 
-  @Test
-  void setIgnoreMissingReports_false() {
-    PitPublisher pitPublisher = new PitPublisher("target/pit-reports/mutations.xml", 0.5f, false, true);
-    pitPublisher.setIgnoreMissingReports(false);
-    assertFalse(pitPublisher.getIgnoreMissingReports());
-  }
+        verify(build).setResult(FAILURE);
+        verify(pitLogger, never()).logResults(any(), any());
+    }
 
-  @Test
-  void getProjectAction() {
-    PitPublisher pitPublisher = new PitPublisher("target/pit-reports/mutations.xml", 0.5f, false, true);
-    Action projectAction = pitPublisher.getProjectAction((AbstractProject<?, ?>) mock(Project.class));
-    assertNotNull(projectAction);
-  }
+    @Test
+    void getMinimumKillRatio() {
+        PitPublisher pitPublisher = new PitPublisher("target/pit-reports/mutations.xml", 0.5f, false, false);
+        assertEquals(0.5f, pitPublisher.getMinimumKillRatio());
+    }
 
-  @Test
-  void getMutationStatsFile() {
-    PitPublisher pitPublisher = new PitPublisher("target/pit-reports/mutations.xml", 0.5f, false, true);
-    assertEquals("target/pit-reports/mutations.xml", pitPublisher.getMutationStatsFile());
-  }
+    @Test
+    void getKillRatioMustImprove() {
+        PitPublisher pitPublisher = new PitPublisher("target/pit-reports/mutations.xml", 0.5f, true, false);
+        assertTrue(pitPublisher.getKillRatioMustImprove());
+    }
 
-  @Test
-  void getRequiredMonitorService() {
-    PitPublisher pitPublisher = new PitPublisher("target/pit-reports/mutations.xml", 0.5f, false, true);
-    assertEquals(STEP, pitPublisher.getRequiredMonitorService());
-  }
+    @Test
+    void getIgnoreMissingReports() {
+        PitPublisher pitPublisher = new PitPublisher("target/pit-reports/mutations.xml", 0.5f, false, true);
+        assertTrue(pitPublisher.getIgnoreMissingReports());
+    }
+
+    @Test
+    void setIgnoreMissingReports_true() {
+        PitPublisher pitPublisher = new PitPublisher("target/pit-reports/mutations.xml", 0.5f, false, false);
+        pitPublisher.setIgnoreMissingReports(true);
+        assertTrue(pitPublisher.getIgnoreMissingReports());
+    }
+
+    @Test
+    void setIgnoreMissingReports_false() {
+        PitPublisher pitPublisher = new PitPublisher("target/pit-reports/mutations.xml", 0.5f, false, true);
+        pitPublisher.setIgnoreMissingReports(false);
+        assertFalse(pitPublisher.getIgnoreMissingReports());
+    }
+
+    @Test
+    void getProjectAction() {
+        PitPublisher pitPublisher = new PitPublisher("target/pit-reports/mutations.xml", 0.5f, false, true);
+        Action projectAction = pitPublisher.getProjectAction((AbstractProject<?, ?>) mock(Project.class));
+        assertNotNull(projectAction);
+    }
+
+    @Test
+    void getMutationStatsFile() {
+        PitPublisher pitPublisher = new PitPublisher("target/pit-reports/mutations.xml", 0.5f, false, true);
+        assertEquals("target/pit-reports/mutations.xml", pitPublisher.getMutationStatsFile());
+    }
+
+    @Test
+    void getRequiredMonitorService() {
+        PitPublisher pitPublisher = new PitPublisher("target/pit-reports/mutations.xml", 0.5f, false, true);
+        assertEquals(STEP, pitPublisher.getRequiredMonitorService());
+    }
 }

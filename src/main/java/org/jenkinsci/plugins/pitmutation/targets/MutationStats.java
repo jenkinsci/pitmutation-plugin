@@ -28,7 +28,9 @@ public abstract class MutationStats {
         return getCoverageColors().getFillHexString();
     }
 
-    public String getKillPercentTextColor() { return getCoverageColors().getLineHexString();}
+    public String getKillPercentTextColor() {
+        return getCoverageColors().getLineHexString();
+    }
 
     private CoverageRange getCoverageColors() {
         return CoverageRange.valueOf(getKillPercent());
@@ -36,7 +38,7 @@ public abstract class MutationStats {
 
     private float round(float ratio) {
         //TODO NaN mutation test
-        if (Float.isNaN(ratio) || Float.isInfinite(ratio)) return ratio;
+        if (Float.isNaN(ratio) || Float.isInfinite(ratio)) {return ratio;}
         BigDecimal bd = new BigDecimal(ratio);
         BigDecimal rounded = bd.setScale(3, RoundingMode.HALF_UP);
         return rounded.floatValue();

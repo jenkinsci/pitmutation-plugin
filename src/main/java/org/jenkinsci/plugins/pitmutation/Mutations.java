@@ -10,5 +10,5 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 public class Mutations {
-  private List<Mutation> mutation;
+    private List<Mutation> mutation;
 }
