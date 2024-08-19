@@ -1,63 +1,49 @@
 package org.jenkinsci.plugins.pitmutation;
 
-import org.apache.commons.digester3.Digester;
+import com.fasterxml.jackson.dataformat.xml.JacksonXmlModule;
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import org.jenkinsci.plugins.pitmutation.targets.MutationStats;
 import org.xml.sax.SAXException;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author edward
+ * @author vasile.jureschi
  */
 public class MutationReport {
 
     private final Map<String, List<Mutation>> mutationsByPackage;
+
     private final Map<String, List<Mutation>> mutationsByClass;
     private int killCount = 0;
 
-    public MutationReport() {
+    public MutationReport(InputStream xmlReport) throws IOException, SAXException {
         this.mutationsByClass = new HashMap<>();
         this.mutationsByPackage = new HashMap<>();
-    }
 
-    public static MutationReport create(InputStream xmlReport) throws IOException, SAXException {
-        return digestMutations(xmlReport);
-    }
+        //    https://github.com/FasterXML/jackson-dataformat-xml/issues/219
+        JacksonXmlModule module = new JacksonXmlModule();
+        module.setDefaultUseWrapper(false);
+        XmlMapper xmlMapper = new XmlMapper(module);
+        Mutations mutations = xmlMapper.readValue(xmlReport, Mutations.class);
 
-    private static MutationReport digestMutations(InputStream input) throws IOException, SAXException {
-        Digester digester = new Digester();
-        digester.addObjectCreate("mutations", MutationReport.class);
-        digester.addObjectCreate("mutations/mutation", Mutation.class);
-        digester.addSetNext("mutations/mutation", "addMutation", "org.jenkinsci.plugins.pitmutation.Mutation");
-        digester.addSetProperties("mutations/mutation");
-        digester.addSetNestedProperties("mutations/mutation");
+        mutations.getMutation().forEach(mutation -> {
+            mutationsByClass.computeIfAbsent(mutation.getMutatedClass(), k -> new ArrayList<>()).add(mutation);
+            if (mutation.isDetected()) {
+                killCount++;
+            }
+            mutationsByPackage
+                .computeIfAbsent(packageNameFromClass(mutation.getMutatedClass()), k -> new ArrayList<>())
+                .add(mutation);
 
-        MutationReport report = digester.parse(input);
-        report.mutationsByClass.forEach((className, mutations) -> {
-            String packageName = packageNameFromClass(className);
-            List<Mutation> existingPackageMutations = report.mutationsByPackage
-                .computeIfAbsent(packageName, k -> new ArrayList<>());
-            mutations.stream().filter(mutation -> !existingPackageMutations.contains(mutation))
-                .forEach(mutation -> report.mutationsByPackage.get(packageName).add(mutation));
         });
-        return report;
-    }
-
-    /**
-     * Called by digester.
-     *
-     * @param mutation {@link Mutation} to add
-     */
-    public void addMutation(Mutation mutation) {
-        mutationsByClass.computeIfAbsent(mutation.getMutatedClass(), k -> new ArrayList<>())
-            .add(mutation);
-        if (mutation.isDetected()) {
-            killCount++;
-        }
-        mutationsByPackage.computeIfAbsent(packageNameFromClass(mutation.getMutatedClass()), k -> new ArrayList<>())
-            .add(mutation);
     }
 
     public Collection<Mutation> getMutationsForPackage(String packageName) {

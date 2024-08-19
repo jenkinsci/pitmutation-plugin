@@ -23,4 +23,9 @@
              description="The build will be marked unstable if the kill ratio is lower than the last build.">
         <f:checkbox/>
     </f:entry>
+    <f:entry title="Ignore missing reports"
+             field="ignoreMissingReports"
+             description="The build will pass even if no reports are found.">
+        <f:checkbox/>
+    </f:entry>
 </j:jelly>

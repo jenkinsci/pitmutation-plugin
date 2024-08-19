@@ -31,7 +31,8 @@ public class MutatedPackage extends MutationResult<MutatedPackage> {
 
     @Override
     public MutationStats getMutationStats() {
-        return new MutationStatsImpl(getName(), classMutations.values().stream().flatMap(List::stream).collect(toList()));
+        return new MutationStatsImpl(getName(),
+                                     classMutations.values().stream().flatMap(List::stream).collect(toList()));
     }
 
     @Override
@@ -53,10 +54,8 @@ public class MutatedPackage extends MutationResult<MutatedPackage> {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o)
-            return true;
-        if (o == null || getClass() != o.getClass())
-            return false;
+        if (this == o) {return true;}
+        if (o == null || getClass() != o.getClass()) {return false;}
         MutatedPackage that = (MutatedPackage) o;
         return Objects.equals(classMutations, that.classMutations);
     }

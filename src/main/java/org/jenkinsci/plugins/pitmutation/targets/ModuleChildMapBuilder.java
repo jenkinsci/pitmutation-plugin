@@ -33,8 +33,6 @@ public class ModuleChildMapBuilder {
     private String getClassName(Mutation mutation) {
         String mutatedClassName = mutation.getMutatedClass();
         int firstDollar = mutatedClassName.indexOf('$');
-        return firstDollar >= 0
-            ? mutatedClassName.substring(0, firstDollar)
-            : mutatedClassName;
+        return firstDollar >= 0 ? mutatedClassName.substring(0, firstDollar) : mutatedClassName;
     }
 }

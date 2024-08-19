@@ -27,12 +27,15 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static hudson.model.Result.FAILURE;
+
 
 /**
  * @author edward
  */
 @Slf4j
-public class PitBuildAction implements HealthReportingAction, StaplerProxy {
+public class PitBuildAction implements HealthReportingAction,
+                                       StaplerProxy {
 
     private static final Pattern MUTATION_REPORT_PATTERN = Pattern.compile(".*mutation-report-([^/\\\\]*).*");
 
@@ -45,16 +48,13 @@ public class PitBuildAction implements HealthReportingAction, StaplerProxy {
     }
 
     public PitBuildAction getPreviousAction() {
-        Run<?, ?> b = owner;
+        Run<?, ?> build = owner;
         while (true) {
-            b = b.getPreviousBuild();
-            if (b == null)
-                return null;
-            if (b.getResult() == Result.FAILURE)
-                continue;
-            PitBuildAction r = b.getAction(PitBuildAction.class);
-            if (r != null)
-                return r;
+            build = build.getPreviousBuild();
+            if (build == null) {return null;}
+            if (build.getResult() == FAILURE) {continue;}
+            PitBuildAction action = build.getAction(PitBuildAction.class);
+            if (action != null) {return action;}
         }
     }
 
@@ -94,7 +94,7 @@ public class PitBuildAction implements HealthReportingAction, StaplerProxy {
                 } else {
                     name = String.valueOf(i);
                 }
-                reports.put(name, MutationReport.create(files[i].read()));
+                reports.put(name, new MutationReport(files[i].read()));
             }
         } catch (IOException | InterruptedException | SAXException e) {
             e.printStackTrace();
@@ -121,7 +121,7 @@ public class PitBuildAction implements HealthReportingAction, StaplerProxy {
             if (b == null) {
                 return null;
             }
-            assert b.getResult() != Result.FAILURE : "We asked for the previous not failed build";
+            assert b.getResult() != FAILURE : "We asked for the previous not failed build";
             PitBuildAction r = b.getAction(PitBuildAction.class);
             if (r != null) {
                 return r;
@@ -132,7 +132,7 @@ public class PitBuildAction implements HealthReportingAction, StaplerProxy {
     @Override
     public HealthReport getBuildHealth() {
         return new HealthReport((int) getReport().getMutationStats().getKillPercent(),
-            Messages._BuildAction_Description(getReport().getMutationStats().getKillPercent()));
+                                Messages._BuildAction_Description(getReport().getMutationStats().getKillPercent()));
     }
 
     @Override
@@ -173,14 +173,14 @@ public class PitBuildAction implements HealthReportingAction, StaplerProxy {
 
 
         final JFreeChart chart = ChartFactory.createLineChart(null, // chart title
-            null, // unused
-            "%", // range axis label
-            dsb.build(), // data
-            PlotOrientation.VERTICAL, // orientation
-            true, // include legend
-            true, // tooltips
-            false // urls
-        );//    JFreeChart chart = new MutationChart(this).createChart();
+                                                              null, // unused
+                                                              "%", // range axis label
+                                                              dsb.build(), // data
+                                                              PlotOrientation.VERTICAL, // orientation
+                                                              true, // include legend
+                                                              true, // tooltips
+                                                              false // urls
+                                                             );//    JFreeChart chart = new MutationChart(this).createChart();
         ChartUtil.generateGraph(req, rsp, chart, 500, 200);
     }
 }

@@ -68,13 +68,10 @@ public class MutatedLine extends MutationResult<MutatedLine> {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o)
-            return true;
-        if (o == null || getClass() != o.getClass())
-            return false;
+        if (this == o) {return true;}
+        if (o == null || getClass() != o.getClass()) {return false;}
         MutatedLine that = (MutatedLine) o;
-        return lineNumber == that.lineNumber &&
-            Objects.equals(mutations, that.mutations);
+        return lineNumber == that.lineNumber && Objects.equals(mutations, that.mutations);
     }
 
     @Override

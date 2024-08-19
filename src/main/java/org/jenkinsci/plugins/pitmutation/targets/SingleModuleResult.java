@@ -1,16 +1,16 @@
 package org.jenkinsci.plugins.pitmutation.targets;
 
+import hudson.model.Run;
+import org.jenkinsci.plugins.pitmutation.MutationReport;
+import org.jenkinsci.plugins.pitmutation.PitBuildAction;
+
+import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Objects;
-import javax.annotation.Nonnull;
 
-import org.jenkinsci.plugins.pitmutation.MutationReport;
-import org.jenkinsci.plugins.pitmutation.PitBuildAction;
-import org.jenkinsci.plugins.pitmutation.PitPublisher;
-
-import hudson.model.Run;
+import static org.jenkinsci.plugins.pitmutation.FileProcessor.SINGLE_MODULE_REPORT_FOLDER;
 
 public class SingleModuleResult extends MutationResult<SingleModuleResult> {
 
@@ -57,7 +57,7 @@ public class SingleModuleResult extends MutationResult<SingleModuleResult> {
 
     @Override
     protected String getMutationReportDirectory() {
-        return PitPublisher.SINGLE_MODULE_REPORT_FOLDER;
+        return SINGLE_MODULE_REPORT_FOLDER;
     }
 
     @Override
@@ -77,10 +77,8 @@ public class SingleModuleResult extends MutationResult<SingleModuleResult> {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o)
-            return true;
-        if (o == null || getClass() != o.getClass())
-            return false;
+        if (this == o) {return true;}
+        if (o == null || getClass() != o.getClass()) {return false;}
         SingleModuleResult that = (SingleModuleResult) o;
         return Objects.equals(action, that.action);
     }

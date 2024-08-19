@@ -81,10 +81,7 @@ public abstract class MutationResult<T extends MutationResult> implements Compar
     }
 
     public Collection<? extends MutationResult> getChildren() {
-        return getChildMap().values().stream()
-            .sorted()
-            .sorted(Collections.reverseOrder())
-            .collect(Collectors.toList());
+        return getChildMap().values().stream().sorted().sorted(Collections.reverseOrder()).collect(Collectors.toList());
     }
 
     public MutationStats getStatsDelta() {
@@ -129,9 +126,7 @@ public abstract class MutationResult<T extends MutationResult> implements Compar
         StringBuilder buf = new StringBuilder(token.length());
         for (int i = 0; i < token.length(); i++) {
             final char c = token.charAt(i);
-            if (('0' <= c && '9' >= c)
-                || ('A' <= c && 'Z' >= c)
-                || ('a' <= c && 'z' >= c)) {
+            if (('0' <= c && '9' >= c) || ('A' <= c && 'Z' >= c) || ('a' <= c && 'z' >= c)) {
                 buf.append(c);
             } else {
                 buf.append('_');

@@ -70,10 +70,8 @@ public class ProjectMutations extends MutationResult<ProjectMutations> {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o)
-            return true;
-        if (o == null || getClass() != o.getClass())
-            return false;
+        if (this == o) {return true;}
+        if (o == null || getClass() != o.getClass()) {return false;}
         ProjectMutations that = (ProjectMutations) o;
         return Objects.equals(action, that.action);
     }

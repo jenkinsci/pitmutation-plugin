@@ -1,7 +1,7 @@
 package org.jenkinsci.plugins.pitmutation.targets;
 
 import org.jenkinsci.plugins.pitmutation.Mutation;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 
@@ -14,10 +14,10 @@ import static org.mockito.Mockito.when;
 /**
  * @author Ed Kimber
  */
-public class MutatedLineTest {
+class MutatedLineTest {
 
     @Test
-    public void getsMutatorClassNames() {
+    void getsMutatorClassNames() {
         Mutation[] mutations = new Mutation[3];
 
         mutations[0] = mock(Mutation.class);

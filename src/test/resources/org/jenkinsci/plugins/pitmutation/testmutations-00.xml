@@ -1,160 +1,192 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <mutations>
-    <mutation detected='false' status='NO_COVERAGE'>
+    <mutation detected='false' status='NO_COVERAGE' numberOfTestsRun='0'>
         <sourceFile>PitParser.java</sourceFile>
         <mutatedClass>org.jenkinsci.plugins.pitmutation.PitParser</mutatedClass>
         <mutatedMethod>&#60;init&#62;</mutatedMethod>
         <lineNumber>28</lineNumber>
         <mutator>org.pitest.mutationtest.engine.gregor.mutators.NonVoidMethodCallMutator</mutator>
-        <index>10</index>
+        <indexes>
+            <index>10</index>
+        </indexes>
         <killingTest/>
     </mutation>
-    <mutation detected='false' status='NO_COVERAGE'>
+    <mutation detected='false' status='NO_COVERAGE' numberOfTestsRun='0'>
         <sourceFile>PitParser.java</sourceFile>
         <mutatedClass>org.jenkinsci.plugins.pitmutation.PitParser</mutatedClass>
         <mutatedMethod>&#60;init&#62;</mutatedMethod>
         <lineNumber>23</lineNumber>
         <mutator>org.pitest.mutationtest.engine.gregor.mutators.NonVoidMethodCallMutator</mutator>
-        <index>2</index>
+        <indexes>
+            <index>2</index>
+        </indexes>
         <killingTest/>
     </mutation>
-    <mutation detected='false' status='NO_COVERAGE'>
+    <mutation detected='false' status='NO_COVERAGE' numberOfTestsRun='0'>
         <sourceFile>PitParser.java</sourceFile>
         <mutatedClass>org.jenkinsci.plugins.pitmutation.PitParser</mutatedClass>
         <mutatedMethod>&#60;init&#62;</mutatedMethod>
         <lineNumber>26</lineNumber>
         <mutator>org.pitest.mutationtest.engine.gregor.mutators.NonVoidMethodCallMutator</mutator>
-        <index>7</index>
+        <indexes>
+            <index>7</index>
+        </indexes>
         <killingTest/>
     </mutation>
 
-    <mutation detected='false' status='NO_COVERAGE'>
+    <mutation detected='false' status='NO_COVERAGE' numberOfTestsRun='0'>
         <sourceFile>Mutation.java</sourceFile>
         <mutatedClass>org.jenkinsci.plugins.pitmutation.Mutation</mutatedClass>
         <mutatedMethod>equals</mutatedMethod>
         <lineNumber>15</lineNumber>
         <mutator>org.pitest.mutationtest.engine.gregor.mutators.NegateConditionalsMutator</mutator>
-        <index>0</index>
+        <indexes>
+            <index>0</index>
+        </indexes>
         <killingTest/>
     </mutation>
-    <mutation detected='true' status='KILLED'>
+    <mutation detected='true' status='KILLED' numberOfTestsRun='0'>
         <sourceFile>Mutation.java</sourceFile>
         <mutatedClass>org.jenkinsci.plugins.pitmutation.Mutation</mutatedClass>
         <mutatedMethod>setStatus</mutatedMethod>
         <lineNumber>36</lineNumber>
         <mutator>org.pitest.mutationtest.engine.gregor.mutators.experimental.MemberVariableMutator</mutator>
-        <index>1</index>
+        <indexes>
+            <index>1</index>
+        </indexes>
         <killingTest>
             org.jenkinsci.plugins.pitmutation.MutationReportTest.canDigestAMutation(org.jenkinsci.plugins.pitmutation.MutationReportTest)
         </killingTest>
     </mutation>
-    <mutation detected='true' status='KILLED'>
+    <mutation detected='true' status='KILLED' numberOfTestsRun='0'>
         <sourceFile>Mutation.java</sourceFile>
         <mutatedClass>org.jenkinsci.plugins.pitmutation.Mutation</mutatedClass>
         <mutatedMethod>getSourceFile</mutatedMethod>
         <lineNumber>40</lineNumber>
         <mutator>org.pitest.mutationtest.engine.gregor.mutators.ReturnValsMutator</mutator>
-        <index>5</index>
+        <indexes>
+            <index>5</index>
+        </indexes>
         <killingTest>
             org.jenkinsci.plugins.pitmutation.MutationReportTest.canDigestAMutation(org.jenkinsci.plugins.pitmutation.MutationReportTest)
         </killingTest>
     </mutation>
-    <mutation detected='true' status='KILLED'>
+    <mutation detected='true' status='KILLED' numberOfTestsRun='0'>
         <sourceFile>Mutation.java</sourceFile>
         <mutatedClass>org.jenkinsci.plugins.pitmutation.Mutation</mutatedClass>
         <mutatedMethod>getMutator</mutatedMethod>
         <lineNumber>72</lineNumber>
         <mutator>org.pitest.mutationtest.engine.gregor.mutators.ReturnValsMutator</mutator>
-        <index>9</index>
+        <indexes>
+            <index>9</index>
+        </indexes>
         <killingTest>
             org.jenkinsci.plugins.pitmutation.MutationReportTest.canDigestAMutation(org.jenkinsci.plugins.pitmutation.MutationReportTest)
         </killingTest>
     </mutation>
 
-    <mutation detected='false' status='SURVIVED'>
+    <mutation detected='false' status='SURVIVED' numberOfTestsRun='0'>
         <sourceFile>PitBuildAction.java</sourceFile>
         <mutatedClass>org.jenkinsci.plugins.pitmutation.PitBuildAction</mutatedClass>
         <mutatedMethod>&#60;init&#62;</mutatedMethod>
         <lineNumber>18</lineNumber>
         <mutator>org.pitest.mutationtest.engine.gregor.mutators.NonVoidMethodCallMutator</mutator>
-        <index>0</index>
+        <indexes>
+            <index>0</index>
+        </indexes>
         <killingTest/>
     </mutation>
-    <mutation detected='true' status='KILLED'>
+    <mutation detected='true' status='KILLED' numberOfTestsRun='0'>
         <sourceFile>PitBuildAction.java</sourceFile>
         <mutatedClass>org.jenkinsci.plugins.pitmutation.PitBuildAction</mutatedClass>
         <mutatedMethod>&#60;init&#62;</mutatedMethod>
         <lineNumber>16</lineNumber>
         <mutator>org.pitest.mutationtest.engine.gregor.mutators.experimental.MemberVariableMutator</mutator>
-        <index>0</index>
+        <indexes>
+            <index>0</index>
+        </indexes>
         <killingTest>
             org.jenkinsci.plugins.pitmutation.PitBuildActionTest.previousReturnsNullIfNoPreviousBuilds(org.jenkinsci.plugins.pitmutation.PitBuildActionTest)
         </killingTest>
     </mutation>
-    <mutation detected='false' status='SURVIVED'>
+    <mutation detected='false' status='SURVIVED' numberOfTestsRun='0'>
         <sourceFile>PitBuildAction.java</sourceFile>
         <mutatedClass>org.jenkinsci.plugins.pitmutation.PitBuildAction</mutatedClass>
         <mutatedMethod>&#60;init&#62;</mutatedMethod>
         <lineNumber>18</lineNumber>
         <mutator>org.pitest.mutationtest.engine.gregor.mutators.experimental.MemberVariableMutator</mutator>
-        <index>2</index>
+        <indexes>
+            <index>2</index>
+        </indexes>
         <killingTest/>
     </mutation>
-    <mutation detected='false' status='SURVIVED'>
+    <mutation detected='false' status='SURVIVED' numberOfTestsRun='0'>
         <sourceFile>PitBuildAction.java</sourceFile>
         <mutatedClass>org.jenkinsci.plugins.pitmutation.PitBuildAction</mutatedClass>
         <mutatedMethod>&#60;init&#62;</mutatedMethod>
         <lineNumber>18</lineNumber>
         <mutator>org.pitest.mutationtest.engine.gregor.mutators.experimental.MemberVariableMutator</mutator>
-        <index>1</index>
+        <indexes>
+            <index>1</index>
+        </indexes>
         <killingTest/>
     </mutation>
 
-    <mutation detected='false' status='SURVIVED'>
+    <mutation detected='false' status='SURVIVED' numberOfTestsRun='0'>
         <sourceFile>MutationReport.java</sourceFile>
         <mutatedClass>org.jenkinsci.plugins.pitmutation.MutationReport</mutatedClass>
         <mutatedMethod>digestMutations</mutatedMethod>
         <lineNumber>42</lineNumber>
         <mutator>org.pitest.mutationtest.engine.gregor.mutators.experimental.InlineConstantMutator</mutator>
-        <index>2</index>
+        <indexes>
+            <index>2</index>
+        </indexes>
         <killingTest/>
     </mutation>
-    <mutation detected='false' status='SURVIVED'>
+    <mutation detected='false' status='SURVIVED' numberOfTestsRun='0'>
         <sourceFile>MutationReport.java</sourceFile>
         <mutatedClass>org.jenkinsci.plugins.pitmutation.MutationReport</mutatedClass>
         <mutatedMethod>digestMutations</mutatedMethod>
         <lineNumber>39</lineNumber>
         <mutator>org.pitest.mutationtest.engine.gregor.mutators.InlineConstantMutator</mutator>
-        <index>1</index>
+        <indexes>
+            <index>1</index>
+        </indexes>
         <killingTest/>
     </mutation>
-    <mutation detected='false' status='SURVIVED'>
+    <mutation detected='false' status='SURVIVED' numberOfTestsRun='0'>
         <sourceFile>MutationReport.java</sourceFile>
         <mutatedClass>org.jenkinsci.plugins.pitmutation.MutationReport</mutatedClass>
         <mutatedMethod>digestMutations</mutatedMethod>
         <lineNumber>38</lineNumber>
         <mutator>org.pitest.mutationtest.engine.gregor.mutators.experimental.InlineConstantMutator</mutator>
-        <index>0</index>
+        <indexes>
+            <index>0</index>
+        </indexes>
         <killingTest/>
     </mutation>
-    <mutation detected='true' status='KILLED'>
+    <mutation detected='true' status='KILLED' numberOfTestsRun='0'>
         <sourceFile>MutationReport.java</sourceFile>
         <mutatedClass>org.jenkinsci.plugins.pitmutation.MutationReport</mutatedClass>
         <mutatedMethod>digestMutations</mutatedMethod>
         <lineNumber>29</lineNumber>
         <mutator>org.pitest.mutationtest.engine.gregor.mutators.ConstructorCallMutator</mutator>
-        <index>1</index>
+        <indexes>
+            <index>1</index>
+        </indexes>
         <killingTest>
             org.jenkinsci.plugins.pitmutation.MutationReportTest.canDigestAMutation(org.jenkinsci.plugins.pitmutation.MutationReportTest)
         </killingTest>
     </mutation>
-    <mutation detected='false' status='SURVIVED'>
+    <mutation detected='false' status='SURVIVED' numberOfTestsRun='0'>
         <sourceFile>MutationReport.java</sourceFile>
         <mutatedClass>org.jenkinsci.plugins.pitmutation.MutationReport</mutatedClass>
         <mutatedMethod>digestMutations</mutatedMethod>
         <lineNumber>39</lineNumber>
         <mutator>org.pitest.mutationtest.engine.gregor.mutators.experimental.InlineConstantMutator</mutator>
-        <index>1</index>
+        <indexes>
+            <index>1</index>
+        </indexes>
         <killingTest/>
     </mutation>
 </mutations>

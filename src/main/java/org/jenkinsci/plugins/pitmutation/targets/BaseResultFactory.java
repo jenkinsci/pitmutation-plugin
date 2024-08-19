@@ -12,7 +12,6 @@ public class BaseResultFactory {
 
     public static MutationResult getBaseMutationResultFrom(PitBuildAction action) {
         Map<String, MutationReport> reports = action.getReports();
-        return reports.size() == 1 ? new SingleModuleResult(action) :
-            new ProjectMutations(action);
+        return reports.size() == 1 ? new SingleModuleResult(action) : new ProjectMutations(action);
     }
 }
