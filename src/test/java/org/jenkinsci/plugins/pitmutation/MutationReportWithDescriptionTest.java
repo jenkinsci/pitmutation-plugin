@@ -9,8 +9,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collection;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.xml.sax.SAXException;
 
 /**
@@ -20,7 +20,7 @@ public class MutationReportWithDescriptionTest {
 
     private InputStream mutationsXml;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         mutationsXml = getClass().getResourceAsStream("testmutations-02.xml");
     }

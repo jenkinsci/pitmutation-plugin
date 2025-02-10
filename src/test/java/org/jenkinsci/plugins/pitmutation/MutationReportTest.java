@@ -1,7 +1,7 @@
 package org.jenkinsci.plugins.pitmutation;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.xml.sax.SAXException;
 
 import java.io.ByteArrayInputStream;
@@ -44,7 +44,7 @@ public class MutationReportTest {
 
     private InputStream mutationsXml;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         mutationsXml = getClass().getResourceAsStream("testmutations-00.xml");
     }

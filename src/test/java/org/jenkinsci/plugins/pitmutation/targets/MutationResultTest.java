@@ -2,8 +2,8 @@ package org.jenkinsci.plugins.pitmutation.targets;
 
 import org.jenkinsci.plugins.pitmutation.MutationReport;
 import org.jenkinsci.plugins.pitmutation.PitBuildAction;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.xml.sax.SAXException;
 
 import java.io.IOException;
@@ -24,7 +24,7 @@ public abstract class MutationResultTest {
     private MutationResult<?> projectResult;
     private MutationResult<?> moduleResult;
 
-    @Before
+    @BeforeEach
     public void setUp() throws IOException, SAXException {
         MutationReport reportOld = MutationReport.create(MutationReport.class.getResourceAsStream("testmutations-00.xml"));
         MutationReport reportNew = MutationReport.create(MutationReport.class.getResourceAsStream("testmutations-01.xml"));

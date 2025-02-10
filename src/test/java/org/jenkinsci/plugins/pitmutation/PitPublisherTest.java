@@ -3,8 +3,8 @@ package org.jenkinsci.plugins.pitmutation;
 import hudson.model.Result;
 import org.jenkinsci.plugins.pitmutation.targets.MutationStats;
 import org.jenkinsci.plugins.pitmutation.targets.ProjectMutations;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
@@ -63,7 +63,7 @@ public class PitPublisherTest {
         }
     }
 
-    @Before
+    @BeforeEach
     public void setup() {
         MockitoAnnotations.openMocks(this);
     }

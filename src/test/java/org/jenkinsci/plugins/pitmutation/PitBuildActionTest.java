@@ -10,8 +10,8 @@ import static org.mockito.Mockito.when;
 import java.io.File;
 import java.io.FilenameFilter;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import hudson.model.AbstractBuild;
 import hudson.model.Result;
@@ -25,7 +25,7 @@ public class PitBuildActionTest {
     private AbstractBuild failedBuild;
     private AbstractBuild successBuild;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         failedBuild = mock(AbstractBuild.class);
         when(failedBuild.getResult()).thenReturn(Result.FAILURE);
