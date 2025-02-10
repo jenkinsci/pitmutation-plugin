@@ -5,25 +5,31 @@
         <groupId>org.jenkins-ci.plugins</groupId>
         <artifactId>plugin</artifactId>
         <version>5.7</version>
-        <relativePath />
+        <relativePath/>
     </parent>
 
     <artifactId>pitmutation</artifactId>
     <version>1.0-19-SNAPSHOT</version>
     <name>Jenkins PIT Mutation Plugin</name>
     <packaging>hpi</packaging>
-    <url>http://wiki.jenkins-ci.org/display/JENKINS/pitmutation</url>
+    <url>https://wiki.jenkins-ci.org/display/JENKINS/pitmutation</url>
+
+    <licenses>
+        <license>
+            <name>MIT</name>
+            <url>https://mit-license.org/</url>
+        </license>
+    </licenses>
 
     <scm>
-        <connection>scm:git:ssh://git@github.com/jenkinsci/pitmutation-plugin.git</connection>
-        <developerConnection>scm:git:ssh://git@github.com/jenkinsci/pitmutation-plugin.git</developerConnection>
+        <connection>scm:git:https://github.com/jenkinsci/pitmutation-plugin.git</connection>
+        <developerConnection>scm:git:https://github.com/jenkinsci/pitmutation-plugin.git</developerConnection>
         <url>https://github.com/jenkinsci/pitmutation-plugin</url>
         <tag>HEAD</tag>
     </scm>
 
     <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <jenkins.version>2.452.4</jenkins.version>
+        <jenkins.version>2.479</jenkins.version>
     </properties>
 
     <developers>
