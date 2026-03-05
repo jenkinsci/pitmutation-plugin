@@ -32,8 +32,7 @@
     <properties>
         <gitHubRepo>jenkinsci/${project.artifactId}-plugin</gitHubRepo>
         <!-- https://www.jenkins.io/doc/developer/plugin-development/choosing-jenkins-baseline/ -->
-        <jenkins.baseline>2.479</jenkins.baseline>
-        <jenkins.version>${jenkins.baseline}</jenkins.version>
+        <jenkins.version>2.528.3</jenkins.version>
     </properties>
 
     <developers>
@@ -45,7 +44,7 @@
         <developer>
             <id>gigaSproule</id>
             <name>Benjamin Sproule</name>
-            <email>benjamin@benjaminsproule.com</email>
+            <email>dev@benjaminsproule.com</email>
         </developer>
     </developers>
 
@@ -79,7 +78,11 @@
         <dependency>
             <groupId>org.jenkins-ci</groupId>
             <artifactId>symbol-annotation</artifactId>
-            <version>1.25</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.code.findbugs</groupId>
+            <artifactId>jsr305</artifactId>
+            <version>3.0.2</version>
         </dependency>
 
         <dependency>
@@ -90,21 +93,9 @@
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
-            <version>5.22.0</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
-
-    <dependencyManagement>
-        <dependencies>
-            <!-- Required to pass RequireUpperBoundDeps error on compile -->
-            <dependency>
-                <groupId>org.jenkins-ci</groupId>
-                <artifactId>annotation-indexer</artifactId>
-                <version>1.18</version>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
 
     <build>
         <plugins>
